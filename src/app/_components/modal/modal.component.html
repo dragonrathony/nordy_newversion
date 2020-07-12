@@ -1,0 +1,106 @@
+<div *ngIf="confirmModalFlag">
+    <div class="content-container">
+        <span>{{data.msg}}</span>
+    </div>
+    <div class="footer">
+        <button mat-flat-button color="warn" id="no-button" [mat-dialog-close]="false">NO</button>
+        <button mat-flat-button id="yes-button" [mat-dialog-close]="true">YES</button>
+    </div>
+</div>
+
+<div *ngIf="simulationAddModalFlag" mat-dialog-content class="simulationAddModal">
+    <p>Please input simulation name</p>
+    <mat-form-field>
+        <mat-label>Simulation name</mat-label>
+        <input matInput [(ngModel)]="data.simulationName">
+    </mat-form-field>
+    <div mat-dialog-actions>
+        <button mat-button (click)="closeDialog()">No Thanks</button>
+        <button mat-button [mat-dialog-close]="data.simulationName" cdkFocusInitial>Confirm</button>
+    </div>
+</div>
+
+<div *ngIf="seeMoreModalFlag">
+    <h1 mat-dialog-title>More Detail</h1>
+    <mat-dialog-content>
+        <div class="taxArea">
+            <div class="customRow">
+                <div>
+                    ICMS
+                </div>
+                <div>
+                    {{data.data[0].ICMS}}
+                </div>
+            </div>
+            <div class="customRow">
+                <div>
+                    PIS
+                </div>
+                <div>
+                    {{data.data[0].PIS}}
+                </div>
+            </div>
+            <div class="customRow">
+                <div>
+                    COFINS
+                </div>
+                <div>
+                    {{data.data[0].COFINS}}
+                </div>
+            </div>
+            <div class="customRow">
+                <div>
+                    Comission
+                </div>
+                <div>
+                    {{data.data[0].Comission}}
+                </div>
+            </div>
+            <div class="customRow">
+                <div>
+                    Shipment
+                </div>
+                <div>
+                    {{data.data[0].Shipment}}
+                </div>
+            </div>
+            <div class="customRow">
+                <div>
+                    Margin
+                </div>
+                <div>
+                    {{data.data[0].Margin}}
+                </div>
+            </div>
+            <div class="customRow">
+                <div>
+                    Formula Code
+                </div>
+                <div>
+                    {{data.data[0].FormulaCode}}
+                </div>
+            </div>
+            <div class="customRow" style="margin-bottom: 0px;">
+                <div>
+                    Formula Cost
+                </div>
+                <div>
+                    {{data.data[0].FormulaCost}}
+                </div>
+            </div>
+        </div>
+        <div class="processArea">
+            <div class="customRow" *ngFor="let item of data.data">
+                <div class="col-md-3">
+                    {{item.Process}}
+                </div>
+                <div class="col-md-3" style="text-align: center;">
+                    {{item.Time}}
+                </div>
+                <div class="col-md-3" style="text-align: right;">
+                    {{item.Cost}}
+                </div>
+            </div>
+        </div>
+    </mat-dialog-content>
+</div>

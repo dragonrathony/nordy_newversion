@@ -1,0 +1,143 @@
+<div class="content-header">
+    <h1>
+        Simulation
+    </h1>
+    <ol class="breadcrumb">
+        <li class="#"><i class="fa fa-dashboard"></i> Home</li>
+        <li class="#">Simulation</li>
+        <li>
+            <a href="active"> Quantity Simulation</a>
+        </li>
+    </ol>
+</div>
+<div class="content">
+    <!-- Simulation Form -->
+    <div *ngIf="!simulationResultFlag">
+        <div class="row">
+            <div class="col-lg-12 col-xs-12">
+                <div class="box box-info">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Quantity Simulation</h3>
+                    </div>
+                    <!-- /.box-header -->
+
+                    <app-loading [isLoading]="isLoading"></app-loading>
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-sm-12 mb-10">
+                                <form [formGroup]="dynamicForm" (ngSubmit)="onSubmit()">
+                                    <div class="card m-3">
+                                        <div class="card-body">
+                                            <div class="form-row">
+                                                <div class="form-group">
+                                                    <div *ngIf="submitted" class="invalid-feedback">
+                                                        <div *ngIf="!numberOfTickets" class="custom-alert">
+                                                            Please add at least one quantity
+                                                        </div>
+                                                        <div *ngIf="isInvalid" class="custom-alert">
+                                                            Please fill out all fields
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-row">
+                                            <mat-form-field class="col-md-2">
+                                                <input matInput type="text" formControlName="productCode"
+                                                    placeholder="Product Code" />
+                                                <mat-error *ngIf="submitted && f.productCode.errors">
+                                                    Product code is required
+                                                </mat-error>
+                                            </mat-form-field>
+
+                                            <mat-form-field class="col-md-1">
+                                                <input matInput type="number" formControlName="ICMS"
+                                                    placeholder="ICMS" />
+                                                <mat-error *ngIf="submitted && f.ICMS.errors">ICMS is
+                                                    required
+                                                </mat-error>
+                                            </mat-form-field>
+
+                                            <mat-form-field class="col-md-1">
+                                                <input matInput type="number" formControlName="PIS" placeholder="PIS"
+                                                    readonly />
+                                            </mat-form-field>
+
+                                            <mat-form-field class="col-md-1">
+                                                <input matInput type="number" formControlName="COFINS"
+                                                    placeholder="COFINS" readonly />
+                                            </mat-form-field>
+
+                                            <mat-form-field class="col-md-2">
+                                                <input matInput type="number" formControlName="Comission"
+                                                    placeholder="Comission" />
+                                                <mat-error *ngIf="submitted && f.Comission.errors">
+                                                    Comission is required
+                                                </mat-error>
+                                            </mat-form-field>
+
+                                            <mat-form-field class="col-md-1">
+                                                <input matInput type="number" formControlName="Ship"
+                                                    placeholder="Ship" />
+                                                <mat-error *ngIf="submitted && f.Ship.errors">Ship is
+                                                    required
+                                                </mat-error>
+                                            </mat-form-field>
+
+                                            <mat-form-field class="col-md-1">
+                                                <input matInput type="number" formControlName="Margin"
+                                                    placeholder="Margin" />
+                                                <mat-error *ngIf="submitted && f.Margin.errors">
+                                                    Margin is required
+                                                </mat-error>
+                                            </mat-form-field>
+                                        </div>
+
+                                        <div *ngFor="let ticket of t.controls; let i = index"
+                                            class="list-group list-group-flush">
+                                            <div [formGroup]="ticket" class="form-row">
+                                                <mat-form-field class="col-md-2">
+                                                    <input matInput type="number" formControlName="Quantity"
+                                                        placeholder="Quantity" />
+                                                    <mat-error *ngIf="submitted && ticket.controls.Quantity.errors">
+                                                        Quantity is required
+                                                    </mat-error>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-12 footer">
+                                                <div class="card-footer text-center">
+                                                    <button mat-raised-button class="mr-1"
+                                                        color="primary">Submit</button>
+                                                    <button mat-raised-button class="mr-1" type="button"
+                                                        (click)="onReset()">
+                                                        Reset
+                                                    </button>
+                                                    <button mat-raised-button (click)="onClear()" type="button">
+                                                        Clear
+                                                    </button>
+                                                    <button mat-raised-button (click)="onAddForm()" type="button">
+                                                        +
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Simulation Result -->
+    <div *ngIf="simulationResultFlag">
+        <app-quantity-simulation-result [data]="simulationResult" [tax]="tax"
+            (simulationResultFlagChange)="getUpdatedSimResultFlag($event)"></app-quantity-simulation-result>
+    </div>
+</div>

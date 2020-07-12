@@ -1,0 +1,8 @@
+table {
+    width: 100%;
+}
+
+.table-filter {
+    float: right;
+    margin-right: 15px;
+}

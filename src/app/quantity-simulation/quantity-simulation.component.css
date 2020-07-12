@@ -1,0 +1,17 @@
+.card-footer button {
+    margin-right: 20px;
+}
+
+.custom-alert,
+.invalid-feedback {
+    color: red;
+}
+
+.footer {
+    margin-top: 20px;
+}
+
+.select-simulation-name {
+    float: right;
+    margin-right: 15px;
+}

@@ -1,0 +1,23 @@
+body {
+  background-color: #4472c4 !important;
+}
+
+.account-pages{
+  min-height: 100vh;
+  .card{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 25px 0;
+    .card-body{
+      max-width: 321px;
+      width: 100%;
+      color: #ffffff8c;
+      label{
+        font-weight: normal;
+      }
+    }
+  }
+  
+}

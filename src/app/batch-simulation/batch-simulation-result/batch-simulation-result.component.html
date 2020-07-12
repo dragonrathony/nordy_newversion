@@ -1,0 +1,228 @@
+<div class="row">
+  <div class="col-lg-12 col-xs-12">
+    <div class="box box-info">
+      <div class="box-header with-border">
+        <h3 class="box-title">Batch Simulation Result</h3>
+      </div>
+
+      <div class="box-body">
+        <app-loading [isLoading]="isLoading"></app-loading>
+        <div *ngIf="!isLoading">
+          <div class="row">
+            <div class="col-md-2">
+              <button class="btn btn-secondary" type="button" (click)="backToBatchSim()">
+                Back
+              </button>
+            </div>
+          </div>
+          <!-- chart -->
+          <div class="row">
+            <div class="col-md-12 mb-10">
+              <div class="chart-wrapper">
+                <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions"
+                  [plugins]="barChartPlugins" [legend]="barChartLegend" [chartType]="barChartType"
+                  [colors]="barChartColors">
+                </canvas>
+              </div>
+            </div>
+          </div>
+          <!-- Income, outcome, result card -->
+          <div class="row" class="card-row">
+            <div class="col-md-4">
+              <mat-card>
+                <mat-card-header>
+                  <mat-card-title>Income</mat-card-title>
+                </mat-card-header>
+                <mat-card-content class="card-content">
+                  <span>
+                    {{printIncome}}
+                  </span>
+                </mat-card-content>
+              </mat-card>
+            </div>
+            <div class="col-md-4">
+              <mat-card>
+                <mat-card-header>
+                  <mat-card-title>Outcome</mat-card-title>
+                </mat-card-header>
+                <mat-card-content class="card-content">
+                  <span>
+                    {{printOutcome}}
+                  </span>
+                </mat-card-content>
+              </mat-card>
+            </div>
+            <div class="col-md-4">
+              <mat-card>
+                <mat-card-header>
+                  <mat-card-title>Result</mat-card-title>
+                </mat-card-header>
+                <mat-card-content class="card-content">
+                  <span>
+                    {{printResult}}
+                  </span>
+                </mat-card-content>
+              </mat-card>
+            </div>
+          </div>
+          <!-- Global cost && supply-->
+          <div class="row" style="margin-top: 20px;">
+            <div class="col-md-6 mb-10" style="margin-top: 20px;">
+              <label>Global Cost</label>
+              <hr />
+              <mat-table [dataSource]="globalCost" class="mat-elevation-z8">
+                <ng-container matColumnDef="position">
+                  <mat-header-cell *matHeaderCellDef>No .</mat-header-cell>
+                  <mat-cell *matCellDef="let element">{{element.position}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="orders">
+                  <mat-header-cell *matHeaderCellDef>Orders</mat-header-cell>
+                  <mat-cell *matCellDef="let element">{{element.orders}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="name">
+                  <mat-header-cell *matHeaderCellDef>Simulation</mat-header-cell>
+                  <mat-cell *matCellDef="let element">{{element.name}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="value">
+                  <mat-header-cell *matHeaderCellDef>Global Cost</mat-header-cell>
+                  <mat-cell *matCellDef="let element">{{element.value}}</mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="globalCostColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: globalCostColumns;"></mat-row>
+              </mat-table>
+            </div>
+            <div class="col-md-6 mb-10" style="margin-top: 20px;">
+              <label>Supply</label>
+              <hr />
+              <mat-table [dataSource]="supply" class="mat-elevation-z8">
+                <ng-container matColumnDef="position">
+                  <mat-header-cell *matHeaderCellDef>No .</mat-header-cell>
+                  <mat-cell *matCellDef="let element">{{element.position}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="orders">
+                  <mat-header-cell *matHeaderCellDef>Orders</mat-header-cell>
+                  <mat-cell *matCellDef="let element">{{element.orders}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="name">
+                  <mat-header-cell *matHeaderCellDef>Simulation</mat-header-cell>
+                  <mat-cell *matCellDef="let element">{{element.name}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="value">
+                  <mat-header-cell *matHeaderCellDef>Supply</mat-header-cell>
+                  <mat-cell *matCellDef="let element">{{element.value}}</mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="supplyColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: supplyColumns;"></mat-row>
+              </mat-table>
+            </div>
+          </div>
+          <!-- Adm process -->
+          <div class="row">
+            <div class="col-md-12 mb-10" style="margin-top: 10px;">
+              <label>Adm Processes</label>
+              <hr />
+              <mat-table [dataSource]="finalProcesses" class="mat-elevation-z8">
+                <ng-container matColumnDef="position">
+                  <mat-header-cell *matHeaderCellDef>No .</mat-header-cell>
+                  <mat-cell *matCellDef="let element">{{element.position}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="orders">
+                  <mat-header-cell *matHeaderCellDef>Orders</mat-header-cell>
+                  <mat-cell *matCellDef="let element">{{element.orders}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="simulation">
+                  <mat-header-cell *matHeaderCellDef>Simulation</mat-header-cell>
+                  <mat-cell *matCellDef="let element">{{element.simulation}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="cost">
+                  <mat-header-cell *matHeaderCellDef>Cost</mat-header-cell>
+                  <mat-cell *matCellDef="let element">{{element.cost}}</mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="admProcessColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: admProcessColumns;"></mat-row>
+              </mat-table>
+            </div>
+          </div>
+          <!-- Conditions -->
+          <div class="row">
+            <div class="col-md-12 mb-10" style="margin-top: 10px;">
+              <label>Conditions</label>
+              <hr />
+              <mat-table [dataSource]="taxResult" class="mat-elevation-z8">
+                <ng-container matColumnDef="position">
+                  <mat-header-cell *matHeaderCellDef>No .</mat-header-cell>
+                  <mat-cell *matCellDef="let element">{{element.position}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="orders">
+                  <mat-header-cell *matHeaderCellDef>Orders</mat-header-cell>
+                  <mat-cell *matCellDef="let element">{{element.orders}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="simulation">
+                  <mat-header-cell *matHeaderCellDef>Simulation</mat-header-cell>
+                  <mat-cell *matCellDef="let element">{{element.simulation}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="ICMS">
+                  <mat-header-cell *matHeaderCellDef>ICMS</mat-header-cell>
+                  <mat-cell *matCellDef="let element">{{element.ICMS}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="PIS">
+                  <mat-header-cell *matHeaderCellDef>PIS</mat-header-cell>
+                  <mat-cell *matCellDef="let element">{{element.PIS}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="COFINS">
+                  <mat-header-cell *matHeaderCellDef>COFINS</mat-header-cell>
+                  <mat-cell *matCellDef="let element">{{element.COFINS}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="Comission">
+                  <mat-header-cell *matHeaderCellDef>Comission</mat-header-cell>
+                  <mat-cell *matCellDef="let element">{{element.Comission}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="Shipment">
+                  <mat-header-cell *matHeaderCellDef>Shipment</mat-header-cell>
+                  <mat-cell *matCellDef="let element">{{element.Shipment}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="Margin">
+                  <mat-header-cell *matHeaderCellDef>Margin</mat-header-cell>
+                  <mat-cell *matCellDef="let element">{{element.Margin}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="priceKg">
+                  <mat-header-cell *matHeaderCellDef>Price / Kg</mat-header-cell>
+                  <mat-cell *matCellDef="let element">{{element.priceKg}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="priceOrder">
+                  <mat-header-cell *matHeaderCellDef>Price / Order</mat-header-cell>
+                  <mat-cell *matCellDef="let element">{{element.priceOrder}}</mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="conditionColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: conditionColumns;"></mat-row>
+              </mat-table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

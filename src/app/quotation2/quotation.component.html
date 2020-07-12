@@ -1,0 +1,125 @@
+<div class="content-header">
+    <h1>
+        Quotation
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="#">Sales</a></li>
+        <li class="active">Quotation</li>
+    </ol>
+</div>
+<div class="content">
+    <!-- Small boxes (Stat box) -->
+    <div class="row">
+        <div class="col-lg-12 col-xs-12">
+            <div class="box box-info">
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <ul class="nav nav-pills">
+                        <li class="active"><a data-toggle="pill" href="#qProduct">Product</a></li>
+                        <li><a data-toggle="pill" href="#qClient">Client</a></li>
+                        <li><a data-toggle="pill" href="#qCondition">Conditions</a></li>
+                      </ul>                      
+                      <div class="tab-content">
+                        <div id="qProduct" class="tab-pane fade in active">
+                            <ul class="nav nav-tabs nav-stacked">
+                                <li class="active"><a data-toggle="tab" href="#qProduct__code">Code</a></li>
+                                <li><a data-toggle="tab" href="#qProduct__form">Form</a></li>
+                                <li class="hidden"><a data-toggle="tab" href="#qProduct__submitedData">Submited Data</a></li>
+                            </ul>                            
+                            <div class="tab-content">
+                                <div id="qProduct__code" class="tab-pane fade in active">
+                                    <form role="form" class="form-horizontal"
+                                        (ngSubmit)="f.valid && f.dirty && submitQuotation(quotationParam)" #f="ngForm">
+                                        <div class="row">
+                                            <div class="col-sm-6 col-lg-4">
+                                                <div class="card-box">
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-12 col-form-label">Product code</label>
+                                                        <div class="col-sm-12">
+                                                            <input class="form-control" name="productCode" type="text"
+                                                                placeholder="Enter Divider" [(ngModel)]="quotationParam.productCode"
+                                                                #productCode="ngModel">
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 col-lg-4">
+                                                <div class="card-box">
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-12 col-form-label">Quantity</label>
+                                                        <div class="col-sm-12">
+                                                            <input class="form-control" name="quantidade" type="number"
+                                                                placeholder="Enter Divider" [(ngModel)]="quotationParam.quantidade"
+                                                                #quantidade="ngModel">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <button class="btn btn-primary mb-15">Submit</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div id="qProduct__form" class="tab-pane fade">
+                                  <app-addproduct></app-addproduct>
+                                </div>
+                                <div id="qProduct__submitedData" class="tab-pane fade">
+                                    <div class="row">      
+                                        <div class="col-sm-12">
+                                            <button class="btn btn-default btn-sm" (click)="onClickBackTab()">Back</button>
+                                        </div>                      
+                                        <div class="col-md-12">
+                                            <div class="card-box">
+                                                <table class="table custom-table">
+                                                    <thead>
+                                                        <tr >
+                                                            <th *ngFor="let h of keysQuotation">{{h}}</th>
+                                                            <th>Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr *ngFor="let q of listQuotation;let i = index" (click)="toggleClass($event)">
+                                                            <td *ngFor="let h of keysQuotation;let d = index">
+                                                                <div class="quotationTableSubData" *ngIf="q[h] && q[h]['name']">
+                                                                    <ng-template [ngIf]="d == 0">
+                                                                        <i  class="fa fa fa-plus"></i>
+                                                                        <i  class="fa fa fa-minus"></i>
+                                                                    </ng-template>
+                                                                    {{q[h]['name']}}
+                                                                    <ul *ngIf="q[h]['extraparma']">
+                                                                        <li *ngFor="let item of q[h]['extraparma'] | keyvalue; let s=index"><b>{{item.key}} :- </b>  {{item.value}}</li>
+                                                                    </ul>
+                                                                </div>
+                                                                <ng-template [ngIf]="q[h] && q[h]['name'] == undefined">{{q[h]}}</ng-template>
+                                                            </td>
+                                                            <td>
+                                                                <a href="/invoice/{{code}}/{{quentity}}/{{i}}" class="btn btn-xs btn-primary btn-block">Invoice</a>
+                                                            </td>
+                                                        </tr>            
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="qClient" class="tab-pane fade">
+                          <h3>Client</h3>
+                          <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                        </div>
+                        <div id="qCondition" class="tab-pane fade">
+                          <h3>Conditions</h3>
+                          <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+                        </div>
+                      </div>
+                    
+                        
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

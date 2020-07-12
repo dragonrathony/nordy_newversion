@@ -1,0 +1,51 @@
+<div class="content-header">
+	<h1>
+		Family
+	</h1>
+	<ol class="breadcrumb">
+		<li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+		<li><a href="#">Industrial Eng</a></li>
+		<li class="active">Family</li>
+	</ol>
+</div>
+<div class="content">
+	<!-- Small boxes (Stat box) -->
+	<div class="row">
+		<div class="col-lg-12 col-xs-12">
+			<div class="box box-info">
+				<!-- /.box-header -->
+				<div class="box-body">
+					<div class="row">
+						<div class="col-sm-12">
+							<table mdbTable class="table">
+								<thead>
+									<th *ngFor="let head of headElements; let i = index"
+										aria-controls="tableSortExample" scope="col" [mdbTableSort]="elements"
+										[sortBy]="headElements[i]">{{head | titlecase}}
+										<mdb-icon *ngIf="i != 2" fas icon="sort"></mdb-icon>
+									</th>
+								</thead>
+								<tbody>
+									<tr *ngFor="let el of elements;">
+										<td width="10%" scope="row">{{el.Id}}</td>
+										<td>{{el.FamilyName}}</td>
+										<td width="10%">
+											<a class="btn btn-warning btn-block btn-xs"
+												[routerLink]="['/editFamily',el.FamilyName]">Edit</a>
+										</td>
+									</tr>
+								</tbody>
+								<tfoot>
+									<tr>
+										<td colspan="3"><a class="btn btn-sm btn-info" routerLink="/addFamily">Add
+												Family</a></td>
+									</tr>
+								</tfoot>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

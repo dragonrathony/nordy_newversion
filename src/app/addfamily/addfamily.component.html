@@ -1,0 +1,72 @@
+<div class="content-header">
+	<h1>
+		Family
+	</h1>
+	<ol class="breadcrumb">
+		<li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+		<li><a href="#">Industrial Eng</a></li>
+		<li><a href="#">Family</a></li>
+		<li class="active">Add Family</li>
+	</ol>
+</div>
+<div class="content">
+	<!-- Small boxes (Stat box) -->
+	<div class="row">
+		<div class="col-lg-12 col-xs-12">
+			<div class="box box-info">
+				<!-- /.box-header -->
+				<div class="box-header with-border">
+					<h3 class="box-title">Add Family</h3>
+				</div>
+				<div class="box-body">
+					<div class="row">
+						<div class="col-sm-4 mb-10">
+							<label class=" col-form-label">Name*</label>
+							<input class="form-control" id="FamilyName" name="FamilyName" type="text" required
+								placeholder="Enter Process Name" [(ngModel)]="paramFamilyBody.FamilyName"
+								#FamilyName="ngModel">
+							<div *ngIf="FamilyName.touched && FamilyName.errors?.required" class="alert alert-danger">
+
+								<div *ngIf="FamilyName.errors.required">
+									Name is required.
+								</div>
+
+							</div>
+							<div *ngIf="this.serverresponse!=''"
+								[ngClass]="{'alert-danger': servererror == 1, 'alert-success': servererror==0}"
+								class="alert">
+								{{this.serverresponse}}
+							</div>
+						</div>
+						<div class="col-md-12 mb-10">
+
+							<button type="button"
+								[disabled]="(!done || done.length === 0) || FamilyName.errors?.required"
+								(click)="submitAddProduct()" class="btn btn-info ">Submit</button>
+						</div>
+						<div class="col-md-12 mb-10">
+							<div class="example-container">
+								<h6>All Process</h6>
+
+								<div cdkDropList #todoList="cdkDropList" [cdkDropListData]="todo"
+									[cdkDropListConnectedTo]="[doneList]" class="example-list"
+									(cdkDropListDropped)="drop($event)">
+									<div class="example-box" *ngFor="let item of todo" cdkDrag>{{item}}</div>
+								</div>
+							</div>
+							<div class="example-container">
+								<h6>Selected Process</h6>
+
+								<div cdkDropList #doneList="cdkDropList" [cdkDropListData]="done"
+									[cdkDropListConnectedTo]="[todoList]" class="example-list"
+									(cdkDropListDropped)="drop($event)">
+									<div class="example-box" *ngFor="let item of done" cdkDrag>{{item}}</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

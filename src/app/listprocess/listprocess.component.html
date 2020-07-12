@@ -1,0 +1,91 @@
+<div class="content-header">
+  <h1>
+    Process
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li><a href="#">Industrial Eng</a></li>
+    <li class="active">Process</li>
+  </ol>
+</div>
+<div class="content">
+  <!-- Small boxes (Stat box) -->
+  <div class="row">
+    <div class="col-lg-12 col-xs-12">
+      <div class="box box-info">
+        <app-loading [isLoading]="isLoading"></app-loading>
+        <div class="box-header with-border">
+          <h3 class="box-title">Process</h3>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="table-responsive">
+                <table mdbTable #tableEl="mdbTable" class="table">
+                  <thead>
+                    <th *ngFor="let head of headElements; let i = index" aria-controls="tableSortExample" scope="col"
+                      [mdbTableSort]="elements" [sortBy]="headElements[i]">{{head | titlecase}}
+                      <mdb-icon fas icon="sort" *ngIf="i !=  4"></mdb-icon>
+                    </th>
+                  </thead>
+                  <tbody>
+                    <tr mdbTableCol *ngFor="let el of elements; let i = index">
+                      <td width="10%"
+                        *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex"
+                        scope="row" scope="row">{{el.Id}}</td>
+                      <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">
+                        {{el.MachineName}}</td>
+                      <td width="10%"
+                        *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">
+                        <a class="btn btn-xs btn-primary btn-block" *ngIf="el.Status=='Active'"
+                          (click)="updateStatus(el.Id,'Deactive')">Operatig</a>
+                        <a class="btn btn-xs btn-danger btn-block" *ngIf="el.Status=='Deactive'"
+                          (click)="updateStatus(el.Id,'Active')">Nonoperating</a>
+                      </td>
+
+                      <td width="10%"
+                        *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">
+                        <a class="btn btn-xs btn-warning btn-block" [routerLink]="['/editProcess',el.Id]">Edit</a>
+                        <!-- &nbsp;&nbsp; -->
+                        <!-- <button type="button" class="btn btn-danger" *ngIf="el.Status=='Active'" (click)="updateStatus(el.Id,'Deactive')">Deactive</button>
+                            <button type="button" class="btn btn-success" *ngIf="el.Status=='Deactive'" (click)="updateStatus(el.Id,'Active')">Active</button> -->
+                      </td>
+                      <td width="10%"
+                        *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">
+                        <a class="btn btn-xs btn-primary btn-block"
+                          [routerLink]="['/machineProcessList',el.Id,el.MachineName]">Machines</a>
+                      </td>
+                    </tr>
+                    <!-- <tr mdbTableCol *ngFor="let el of elements">
+                        <th scope="row">{{el.Id}}</th>
+                        <td>{{el.MachineName}}</td>
+                        <td>{{el.Status}}</td>          
+                      
+                        <td>
+                            <a class="btn btn-info" [routerLink]="['/editProcess',el.Id]">Edit</a> &nbsp;&nbsp;
+                            <button type="button" class="btn btn-danger" *ngIf="el.Status=='Active'" (click)="updateStatus(el.Id,'Deactive')">Deactive</button>
+                            <button type="button" class="btn btn-success" *ngIf="el.Status=='Deactive'" (click)="updateStatus(el.Id,'Active')">Active</button>
+                              
+                          
+                        </td>                           
+                      </tr> -->
+
+                  </tbody>
+                  <tfoot class="grey lighten-5 w-100 text-right">
+                    <tr>
+                      <td colspan="5">
+                        <a class="btn btn-sm btn-info pull-left" routerLink="/addProcess">Add Process </a>
+                        <mdb-table-pagination [tableEl]="tableEl" [searchDataSource]="elements"></mdb-table-pagination>
+                      </td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

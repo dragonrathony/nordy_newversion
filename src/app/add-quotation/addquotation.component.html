@@ -1,0 +1,299 @@
+<div class="content-header">
+  <h1>
+    Sales
+  </h1>
+  <ol class="breadcrumb">
+    <li>
+      <a href="#"><i class="fa fa-dashboard"></i> Home</a>
+    </li>
+    <li><a href="#">Sales</a></li>
+    <li class="active">Add Quotation</li>
+  </ol>
+</div>
+<div class="content">
+  <!-- Small boxes (Stat box) -->
+  <div class="row">
+    <div class="col-lg-12 col-xs-12">
+      <div class="box box-info">
+        <app-loading [isLoading]="isLoading"></app-loading>
+        <div class="box-header with-border">
+          <h3 class="box-title">Add Quotation</h3>
+        </div>
+        <div class="box-body">
+          <ul class="nav nav-pills">
+            <li class="active">
+              <a data-toggle="pill" href="#qProduct">Product</a>
+            </li>
+            <li>
+              <a data-toggle="pill" href="#qClient">Client</a>
+            </li>
+            <li>
+              <a data-toggle="pill" href="#qCondition">Conditions</a>
+            </li>
+          </ul>
+          <div class="tab-content">
+            <!-- Product tab -->
+            <div id="qProduct" class="tab-pane fade in active">
+              <!-- Tab nav -->
+              <ul class="nav nav-tabs nav-stacked">
+                <li class="active">
+                  <a data-toggle="tab" href="#qProduct__code">Code</a>
+                </li>
+                <li>
+                  <a data-toggle="tab" href="#qProduct__form">Form</a>
+                </li>
+                <li class="hidden">
+                  <a data-toggle="tab" href="#qProduct__submitedData">Submited Data</a>
+                </li>
+              </ul>
+              <!-- Tab nav end -->
+              <div class="tab-content">
+                <div id="qProduct__code" class="tab-pane fade in active">
+                  <!-- <form
+                    role="form"
+                    class="form-horizontal"
+                    (ngSubmit)="
+                      f.valid && f.dirty && submitQuotation(quotationParam)
+                    "
+                    #f="ngForm"
+                  > -->
+                  <div class="row">
+                    <div class="col-sm-6 col-lg-4">
+                      <div class="card-box">
+                        <div class="form-group row">
+                          <label class="col-sm-12 col-form-label">Product code</label>
+                          <div class="col-sm-12">
+                            <input class="form-control" name="code" type="text" placeholder="Enter Divider"
+                              [(ngModel)]="quotationParam.productCode" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-4">
+                      <div class="card-box">
+                        <div class="form-group row">
+                          <label class="col-sm-12 col-form-label">Quantity</label>
+                          <div class="col-sm-12">
+                            <input class="form-control" name="quantidade" type="number" placeholder="Enter Divider"
+                              [(ngModel)]="quotationParam.quantidade" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <button class="btn btn-primary mb-15" type="button" (click)="submitQuotation()">
+                        Submit
+                      </button>
+                    </div>
+                  </div>
+                  <!-- </form> -->
+                </div>
+                <div id="qProduct__form" class="tab-pane fade">
+                  <app-add-product-form (quotationAPICall)="handleQuotationAPIResult($event)"></app-add-product-form>
+                </div>
+                <div id="qProduct__submitedData" class="tab-pane fade">
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <button class="btn btn-default btn-sm" (click)="onClickBackTab()">
+                        Back
+                      </button>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="card-box">
+                        <table class="table custom-table">
+                          <thead>
+                            <tr>
+                              <th *ngFor="let h of keysQuotation">{{ h }}</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let q of listQuotation; let i = index" (click)="toggleClass(i)"
+                              [ngClass]="{ 'active': activeClass[i]}">
+                              <td *ngFor="let h of keysQuotation; let d = index">
+                                <div class="quotationTableSubData" *ngIf="q[h] && q[h]['name']">
+                                  <ng-template [ngIf]="d == 0">
+                                    <i class="fa fa fa-plus"></i>
+                                    <i class="fa fa fa-minus"></i>
+                                  </ng-template>
+                                  {{ q[h]["name"] }}
+                                  <ul *ngIf="q[h]['extraparma']">
+                                    <li *ngFor="
+                                        let item of q[h]['extraparma']
+                                          | keyvalue;
+                                        let s = index
+                                      ">
+                                      <b>{{ item.key }} :- </b> {{ item.value }}
+                                    </li>
+                                  </ul>
+                                </div>
+                                <ng-template [ngIf]="q[h] && q[h]['name'] == undefined">{{ q[h] }}</ng-template>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        <!-- Supply && Adm Processes -->
+                        <div class="row">
+                          <div class="col-md-12" style="margin-top: 10px;">
+                            <label>Supply</label>
+                            <hr />
+                            <div class="supply_val">{{ supply }}</div>
+                          </div>
+
+                          <div class="col-md-12" style="margin-top: 20px;">
+                            <label>Adm Processes</label>
+                            <hr />
+                            <table class="table custom-table">
+                              <thead>
+                                <tr>
+                                  <td>No</td>
+                                  <td>Name</td>
+                                  <td>Cost</td>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="
+                                    let admProcess of admProcesses;
+                                    let i = index
+                                  ">
+                                  <td>{{ i+1 }}</td>
+                                  <td>{{ admProcess["Name"] }}</td>
+                                  <td>{{ admProcess["Cost"] }}</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Product tab end -->
+
+            <!-- Client tab -->
+            <div id="qClient" class="tab-pane fade">
+              <!-- Tab nav -->
+              <li class="hidden">
+                <a data-toggle="tab" href="#qClient__form">Client Form</a>
+                <a data-toggle="tab" href="#qClient__submitedData">Submited Data</a>
+              </li>
+              <!-- Tab nav end -->
+              <div class="tab-content">
+                <div id="qClient__form" class="tab-pane fade in active">
+                  <div class="row">
+                    <div class="col-sm-6 col-lg-4">
+                      <div class="card-box">
+                        <div class="form-group row">
+                          <label class="col-sm-12 col-form-label">Number</label>
+                          <div class="col-sm-12">
+                            <input class="form-control" name="customer" type="text" placeholder="Enter Customer"
+                              [(ngModel)]="quotationParam.customer" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <button class="btn btn-primary mb-15" type="button" (click)="submitCustomer()">
+                        Submit
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div id="qClient__submitedData" class="tab-pane fade">
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <button class="btn btn-default btn-sm" (click)="backClientTab()">
+                        Back
+                      </button>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="card-box">
+                        <table class="table custom-table">
+                          <thead>
+                            <tr>
+                              <th *ngFor="let h of keysCustomer">{{ h }}</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let q of listCustomer; let i = index">
+                              <td *ngFor="let h of keysCustomer; let d = index">
+                                {{ q[h] }}
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Client tab end -->
+
+            <!-- Condition tab -->
+            <div id="qCondition" class="tab-pane fade">
+              <mat-form-field class="col-md-4 col-sm-6 col-xs-12">
+                <input matInput type="number" placeholder="ICMS" [(ngModel)]="ICMS"
+                  (ngModelChange)="changeQuotations()" />
+              </mat-form-field>
+
+              <mat-form-field class="col-md-4 col-sm-6 col-xs-12">
+                <input matInput type="number" placeholder="PIS" [(ngModel)]="PIS" readonly />
+              </mat-form-field>
+
+              <mat-form-field class="col-md-4 col-sm-6 col-xs-12">
+                <input matInput type="number" placeholder="COFINS" [(ngModel)]="COFINS" readonly />
+              </mat-form-field>
+
+              <mat-form-field class="col-md-4 col-sm-6 col-xs-12">
+                <input matInput type="number" placeholder="Comission" [(ngModel)]="Comission"
+                  (ngModelChange)="changeQuotations()" />
+              </mat-form-field>
+
+              <mat-form-field class="col-md-4 col-sm-6 col-xs-12">
+                <input matInput type="number" placeholder="Shipment" [(ngModel)]="Shipment"
+                  (ngModelChange)="changeQuotations()" />
+              </mat-form-field>
+
+              <mat-form-field class="col-md-4 col-sm-6 col-xs-12">
+                <input matInput type="number" placeholder="Margin" [(ngModel)]="Margin"
+                  (ngModelChange)="changeQuotations()" />
+              </mat-form-field>
+
+              <mat-form-field class="col-md-4 col-sm-6 col-xs-12">
+                <input matInput placeholder="Price / Kg" [(ngModel)]="priceKg" readonly />
+              </mat-form-field>
+
+              <mat-form-field class="col-md-4 col-sm-6 col-xs-12">
+                <input matInput placeholder="Price / Order" [(ngModel)]="priceOrder" readonly />
+              </mat-form-field>
+
+              <mat-form-field class="col-md-4 col-sm-6 col-xs-12">
+                <input matInput readonly [matDatepicker]="picker" placeholder="Due Date" [(ngModel)]="dueDate"
+                  (dateChange)="date($event)">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+                <mat-error *ngIf="conditionFormSubmit && !dueDate">Due date is required</mat-error>
+              </mat-form-field>
+
+              <div class="row">
+                <div class="col-md-6 col-sm-6 col-xs-12 quotation_button">
+                  <button mat-flat-button color="primary" (click)="seeInvoice()">
+                    See Invoice
+                  </button>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-12 quotation_button">
+                  <button mat-flat-button color="primary" (click)="placeOrder()">
+                    Place Quotation
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- Condition tab end -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

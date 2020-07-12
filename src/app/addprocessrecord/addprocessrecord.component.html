@@ -1,0 +1,339 @@
+<div class="content-header">
+    <h1>
+        Process
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="#">Industrial Eng</a></li>
+        <li><a href="#">Process</a></li>
+        <li class="active">Record</li>
+    </ol>
+</div>
+<div class="content">
+    <!-- Small boxes (Stat box) -->
+    <div class="row">
+        <div class="col-lg-12 col-xs-12">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Add Process Record</h3>
+                </div>
+                <a class="pull-right btn btn-info "  routerLink="/listProcessRecord">Process List</a>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <form novalidate (ngSubmit)="onSubmit(survey)">
+                                <!---Survey Section -->
+                                <div [formGroup]="survey" class="card-box row">
+                                    <div [formGroup]="survey" class="mb-15 col-sm-6 col-md-4">
+                                        <div class="form-group">
+                                            <label class=" col-form-label">Name<span
+                                                    class="text-danger">*</span></label>
+                                            <div class="">
+                                                <input class="form-control" id="MachineName" formControlName="Name"
+                                                    type="text" required placeholder="Name">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div [formGroup]="survey" class="mb-15 col-sm-6 col-md-4">
+                                        <div class="form-group">
+                                            <label class=" col-form-label">MachineCode</label>
+                                            <div class="">
+                                                <input class="form-control" id="MachineCode"
+                                                    formControlName="MachineCode" type="text" required
+                                                    placeholder="MachineCode">
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div [formGroup]="survey" class="mb-15 col-sm-6 col-md-4">
+                                        <div class="form-group">
+                                            <label class=" col-form-label">BusinessUnity</label>
+                                            <div class="">
+                                                <input class="form-control" id="BusinessUnity"
+                                                    formControlName="BusinessUnity" type="number" required
+                                                    placeholder="BusinessUnity">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div [formGroup]="survey" class="mb-15 col-sm-6 col-md-4">
+                                        <div class="form-group">
+                                            <label class=" col-form-label">Quality</label>
+                                            <div class="">
+                                                <input class="form-control" id="Quality" formControlName="Quality"
+                                                    type="number" required placeholder="Quality">
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div [formGroup]="survey" class="mb-15 col-sm-6 col-md-4">
+                                        <div class="form-group">
+                                            <label class=" col-form-label">Eficiency</label>
+                                            <div class="">
+                                                <input class="form-control" id="Eficiency" formControlName="Eficiency"
+                                                    type="number" required placeholder="Eficiency">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div [formGroup]="survey" class="mb-15 col-sm-6 col-md-4">
+                                        <div class="form-group">
+                                            <label class=" col-form-label">Availability</label>
+                                            <div class="">
+                                                <input class="form-control" id="Availability"
+                                                    formControlName="Availability" type="number" required
+                                                    placeholder="Availability">
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div [formGroup]="survey" class="mb-15 col-sm-6 col-md-4">
+                                        <div class="form-group">
+                                            <label class=" col-form-label">SetupTime</label>
+                                            <div class="">
+                                                <input class="form-control" id="SetupTime" formControlName="SetupTime"
+                                                    type="text" required placeholder="SetupTime">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div [formGroup]="survey" class="mb-15 col-sm-6 col-md-4">
+                                        <div class="form-group">
+                                            <label class=" col-form-label">SetupTimeUnity</label>
+                                            <div class="">
+                                                <input class="form-control" id="SetupTimeUnity"
+                                                    formControlName="SetupTimeUnity" type="text" required
+                                                    placeholder="SetupTimeUnity">
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div [formGroup]="survey" class="mb-15 col-sm-6 col-md-4">
+                                        <div class="form-group">
+                                            <label class=" col-form-label">Cost</label>
+                                            <div class="">
+                                                <input class="form-control" id="Cost" formControlName="Cost" type="text"
+                                                    required placeholder="Cost">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div [formGroup]="survey" class="mb-15 col-sm-6 col-md-4">
+                                        <div class="form-group">
+                                            <label class=" col-form-label">CostTimeUnity</label>
+                                            <div class="">
+                                                <input class="form-control" id="CostTimeUnity"
+                                                    formControlName="CostTimeUnity" type="text" required
+                                                    placeholder="CostTimeUnity">
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div [formGroup]="survey" class="mb-15 col-sm-6 col-md-4">
+                                        <div class="form-group">
+                                            <label class=" col-form-label">SetupLoss</label>
+                                            <div class="">
+                                                <input class="form-control" id="SetupLoss" formControlName="SetupLoss"
+                                                    type="text" required placeholder="SetupLoss">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div [formGroup]="survey" class="mb-15 col-sm-6 col-md-4">
+                                        <div class="form-group">
+                                            <label class=" col-form-label">SetupLossUnity</label>
+                                            <div class="">
+                                                <input class="form-control" id="SetupLossUnity"
+                                                    formControlName="SetupLossUnity" type="text" required
+                                                    placeholder="SetupLossUnity">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div [formGroup]="survey" class="mb-15 col-sm-6 col-md-4">
+                                        <div class="form-group">
+                                            <label class=" col-form-label">Speed</label>
+                                            <div class="">
+                                                <input class="form-control" id="Speed" formControlName="Speed"
+                                                    type="text" required placeholder="Speed">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div [formGroup]="survey" class="mb-15 col-sm-6 col-md-4">
+                                        <div class="form-group">
+                                            <label class=" col-form-label">SpeedUnity</label>
+                                            <div class="">
+                                                <input class="form-control" id="SpeedUnity" formControlName="SpeedUnity"
+                                                    type="text" required placeholder="SpeedUnity">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div [formGroup]="survey" class="mb-15 col-sm-6 col-md-4">
+                                        <div class="form-group">
+                                            <label class=" col-form-label">SpeedTimeUnity</label>
+                                            <div class="">
+                                                <input class="form-control" id="SpeedTimeUnity"
+                                                    formControlName="SpeedTimeUnity" type="text" required
+                                                    placeholder="SpeedTimeUnity">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div [formGroup]="survey" class="mb-15 col-sm-6 col-md-4">
+                                        <div class="form-group">
+                                            <label class=" col-form-label">MinBatch</label>
+                                            <div class="">
+                                                <input class="form-control" id="MinBatch" formControlName="MinBatch"
+                                                    type="text" required placeholder="MinBatch">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div [formGroup]="survey" class="mb-15 col-sm-6 col-md-4">
+                                        <div class="form-group">
+                                            <label class=" col-form-label">MinBatchUnity</label>
+                                            <div class="">
+                                                <input class="form-control" id="MinBatchUnity"
+                                                    formControlName="MinBatchUnity" type="text" required
+                                                    placeholder="MinBatchUnity">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div [formGroup]="survey" class="mb-15 col-sm-6 col-md-4">
+                                        <div class="form-group">
+                                            <label class=" col-form-label">MaxBatch</label>
+                                            <div class="">
+                                                <input class="form-control" id="MaxBatch" formControlName="MaxBatch"
+                                                    type="text" required placeholder="MaxBatch">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div [formGroup]="survey" class="mb-15 col-sm-6 col-md-4">
+                                        <div class="form-group">
+                                            <label class=" col-form-label">MaxBatchUnity</label>
+                                            <div class="">
+                                                <input class="form-control" id="MaxBatchUnity"
+                                                    formControlName="MaxBatchUnity" type="text" required
+                                                    placeholder="MaxBatchUnity">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div [formGroup]="survey" class="mb-15 col-sm-6 col-md-4">
+                                        <div class="form-group">
+                                            <label class=" col-form-label">GroupSpeed</label>
+                                            <div class="">
+                                                <input class="form-control" id="GroupSpeed" formControlName="GroupSpeed"
+                                                    type="text" required placeholder="GroupSpeed">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div [formGroup]="survey" class="mb-15 col-sm-6 col-md-4">
+                                        <div class="form-group">
+                                            <label class=" col-form-label">GroupSpeedTimeUnity</label>
+                                            <div class="">
+                                                <input class="form-control" id="GroupSpeedTimeUnity"
+                                                    formControlName="GroupSpeedTimeUnity" type="text" required
+                                                    placeholder="GroupSpeedTimeUnity">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div [formGroup]="survey" class="mb-15 col-sm-6 col-md-4">
+                                        <div class="form-group">
+                                            <label class=" col-form-label">GroupName</label>
+                                            <div class="">
+                                                <input class="form-control" id="GroupName" formControlName="GroupName"
+                                                    type="text" required placeholder="GroupName">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div [formGroup]="survey" class="mb-15 col-sm-6 col-md-4">
+                                        <div class="form-group">
+                                            <label class=" col-form-label">OnOff</label>
+                                            <div class="">
+                                                <input class="form-control" id="OnOff" formControlName="OnOff"
+                                                    type="text" required placeholder="OnOff">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div [formGroup]="survey" class="mb-15 col-sm-6 col-md-4">
+                                        <div class="form-group">
+                                            <label class=" col-form-label">Process<span
+                                                    class="text-danger">*</span></label>
+                                            <div class="">
+                                                <select id='ProcessId' formControlName="ProcessId" class="form-control"
+                                                    (change)="genreateForm($event.target.value)">
+                                                    <option value=""></option>
+                                                    <option *ngFor="let m of Processrecord" value="{{m.Id}}">
+                                                        {{m.MachineName}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div formArrayName="EXTRAFIELDS" class="mb-15 col-sm-6 col-md-4"
+                                        *ngFor="let m of questions trackBy: trackItem; let i = index">
+                                        <div class="form-group" [formGroupName]="i">
+                                            <label class=" col-form-label">{{m.questionTitle}}</label>
+                                            <div class="" *ngIf="(m.questionType=='Free Text')?true:false">
+                                                <input class="form-control" id="{{m.questionTitle}}"
+                                                    formControlName="{{m.questionTitle}}" type="text" required
+                                                    placeholder="{{m.questionTitle}}">
+                                            </div>
+                                            <div class="col-sm-12" *ngIf="(m.questionType=='Select Box')?true:false">
+                                                <select class="form-control" id="{{m.questionTitle}}"
+                                                    formControlName="{{m.questionTitle}}">
+                                                    <option value="">--Select--</option>
+                                                    <option *ngFor="let n of m.options">{{n.optionTitle}}</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-12" *ngIf="(m.questionType=='Check Boxes')?true:false">
+                                                <div *ngFor="let n of m.options" class="form-check-inline">
+                                                    <label class="form-check-label">
+                                                        <input type="checkbox"
+                                                            (change)="onCheckChange($event,m.questionTitle,i)"
+                                                            class="form-check-input"
+                                                            value="{{n.optionTitle}}">{{n.optionTitle}}
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12" *ngIf="(m.questionType=='radio')?true:false">
+                                                <div *ngFor="let n of m.options" class="form-check-inline">
+                                                    <label class="form-check-label">
+                                                        <input name="radio+i" type="radio"
+                                                            (change)="onCheckChange($event,m.questionTitle,i)"
+                                                            class="form-check-input"
+                                                            value="{{n.optionTitle}}">{{n.optionTitle}}
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- End Section -->
+                                <div class="col-md-12 text-right">
+                                    <button
+                                        [disabled]="((survey.value.Name!='')?false:true) || ((survey.value.ProcessId!='')?false:true)"
+                                        class="btn btn-success">Submit</button>
+                                </div>
+
+                                <div *ngIf="this.serverresponse!=''" class="alert" [ngClass]="{'alert-danger': serverError == 1,
+                                                    'alert-success': serverError==0}">
+                                    {{this.serverresponse}}
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!--
+<pre> {{survey.value | json}} </pre>
+-->

@@ -1,0 +1,45 @@
+.content-container {
+    display: flex;
+    margin-bottom: 24px;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.footer {
+    justify-content: space-evenly;
+    display: flex;
+}
+
+.simulationAddModal {
+    height: 140px;
+    text-align: center;
+}
+
+.mat-dialog-actions {
+    justify-content: center;
+}
+
+/** See more modal*/
+.customRow {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    padding: 2px;
+    font-weight: bold;
+    align-items: center;
+}
+
+.col-md-3 {
+    padding: 0px;
+}
+
+.taxArea {
+    background-color: antiquewhite;
+    padding: 12px;
+}
+
+.processArea {
+    background-color: aquamarine;
+    padding: 12px;
+}

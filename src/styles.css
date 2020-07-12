@@ -1,0 +1,97 @@
+/* You can add global styles to this file, and also import other style files */
+
+/* Provide sufficient contrast against white background */
+/*a {
+  color: #0366d6;
+}
+
+code {
+  color: #e01a76;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}*/
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+.mb-10 {
+  margin-bottom: 10px;
+}
+
+.mb-15 {
+  margin-bottom: 15px;
+}
+
+.mb-20 {
+  margin-bottom: 20px;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+table.table th {
+  font-weight: 600;
+}
+
+table.table th,
+table.table td {
+  font-size: 14px;
+  padding: 8px;
+}
+
+.pagination.pagination-circle {
+  margin: 0;
+}
+
+.pagination.pagination-circle li:not(.page-item) {
+  line-height: 2.5;
+  padding: 07px;
+}
+
+table.table th mdb-icon {
+  float: right;
+  padding: 3px 7px;
+  margin-right: 3px;
+}
+
+.addproduct_form .card-box .form-group.row {
+  max-width: 33.33%;
+  float: left;
+  width: 100%;
+  margin: 0 0 15px;
+}
+
+hr {
+  border-top: 1px solid #d2d6de;
+}
+
+#qProduct__form .content-header {
+  display: none;
+}
+
+#qProduct__form .content,
+#qProduct__form .content>.row,
+#qProduct__form .content>.row>div,
+#qProduct__form #customFormAdd>.row,
+#qProduct__form #customFormAdd>.row>div,
+#qProduct__form .content .box-body>.row>div,
+#qProduct__form .content .box-body>.row,
+#qProduct__form .content .box-body {
+  padding: 0;
+  margin: 0;
+}
+
+#qProduct__form .box-header {
+  display: none;
+}
+
+#qProduct__form .box.box-info {
+  border: none;
+  box-shadow: 0 0;
+  padding: 0;
+  background-color: transparent;
+}

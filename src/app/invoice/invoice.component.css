@@ -1,0 +1,22 @@
+
+.content.invoice{
+  min-height: 250px;
+  padding: 15px;
+  margin-right: auto;
+  margin-left: auto;
+  padding-left: 15px;
+  padding-right: 15px;
+  background-color: transparent;
+  margin-bottom: 0;
+    margin-top: 0;
+  border: none;
+}
+.invoice_pay img{
+  display:inline-block;
+  vertical-align: top;
+  margin: 2px;
+}
+.invoice-col span, .invoice-col address span {
+  display: block;
+  line-height: 1.6;
+}

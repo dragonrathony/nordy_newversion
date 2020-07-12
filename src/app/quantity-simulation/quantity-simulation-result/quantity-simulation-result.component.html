@@ -1,0 +1,43 @@
+<div class="row">
+    <div class="col-lg-12 col-xs-12">
+        <div class="box box-info">
+            <div class="box-header with-border">
+                <h3 class="box-title">Quantity Simulation Result</h3>
+            </div>
+
+            <div class="box-body">
+                <app-loading [isLoading]="isLoading"></app-loading>
+                <div *ngIf="!isLoading">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <button class="btn btn-secondary" type="button" (click)="backToQuantitySim()">
+                                Back
+                            </button>
+                        </div>
+                    </div>
+                    <!-- chart -->
+                    <div class="row">
+                        <!-- Price / order -->
+                        <div class="col-md-6 mb-10">
+                            <div class="chart-wrapper">
+                                <canvas baseChart [datasets]="priceOrderChartData" [labels]="priceOrderChartLabels"
+                                    [options]="lineChartOptions" [plugins]="lineChartPlugins" [legend]="lineChartLegend"
+                                    [chartType]="lineChartType" [colors]="lineChartColors">
+                                </canvas>
+                            </div>
+                        </div>
+                        <!-- Price / kg -->
+                        <div class="col-md-6 mb-10">
+                            <div class="chart-wrapper">
+                                <canvas baseChart [datasets]="priceKgChartData" [labels]="priceKgChartLabels"
+                                    [options]="lineChartOptions" [plugins]="lineChartPlugins" [legend]="lineChartLegend"
+                                    [chartType]="lineChartType" [colors]="lineChartColors">
+                                </canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

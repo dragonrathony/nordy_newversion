@@ -1,0 +1,131 @@
+<div class="content-header">
+    <h1>
+        Process
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="#">Industrial Eng</a></li>
+        <li><a href="#">Process</a></li>
+        <li class="active">Add Process</li>
+    </ol>
+</div>
+<div class="content">
+    <!-- Small boxes (Stat box) -->
+    <div class="row">
+        <div class="col-lg-12 col-xs-12">
+            <div class="box box-info">
+                <!-- /.box-header -->
+                <div class="box-header with-border">
+                    <h3 class="box-title">Add Process</h3>
+                </div>
+                <div class="box-body">
+                    <form [formGroup]="survey" novalidate (ngSubmit)="onSubmit(survey)">
+                        <!---Survey Section -->
+                        <div formArrayName="sections">
+                            <div class="section-container" *ngFor="let section of getSections(survey); let i = index">
+                                <div class="row">
+                                    <div class="col-md-12">
+
+                                        <div class="ui raised segments  " [formGroupName]="i">
+
+                                            <div class="row">
+                                                <div class="col-sm-6 col-md-4">
+                                                    <label class="col-form-label">Name<span
+                                                        class="text-danger">*</span></label>
+                                                    <div class="mb-10">
+                                                        <input class="form-control" id="MachineName"
+                                                            formControlName="MachineName" type="text" required
+                                                            placeholder="Enter Process Name">
+
+                                                        <div *ngIf="this.serverresponse!=''" class="alert" [ngClass]="{'alert-danger': serverError == 1,
+                                                            'alert-success': serverError==0}">
+                                                            {{this.serverresponse}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 col-md-8 text-right mb-10">
+                                                    <a class="btn btn-sm btn-info" routerLink="/listProcess">Process List</a>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <h4>Extra Fields</h4>
+                                            <div class="question-container" formArrayName="questions">
+                                                <div [formGroupName]="j"
+                                                    *ngFor="let question of getQuestions(section); let j = index">
+                                                    <div class="row">
+                                                        <div class="col-sm-6 col-lg-4 ">
+                                                            <input class="form-control" type="text" placeholder="Label"
+                                                                formControlName="questionTitle">
+                                                        </div>
+                                                        <div class="col-sm-4 mb-10">
+                                                            <select class="form-control" formControlName="questionType">
+                                                                <option>Select Box</option>
+                                                                <option>Check Boxes</option>
+                                                                <option>Free Text</option>
+                                                                <option>Radio</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Option Addation -->
+                                                    <div formArrayName="options">
+                                                        <div class="" [formGroupName]="k"
+                                                            *ngFor="let option of getOptions(question); let k=index">
+                                                            <div class="row form-group"
+                                                                *ngIf="getCurrentFieldType(i,j)!='Free Text'">
+                                                                <div class="col-sm-1 text-right">
+                                                                    <input type="radio" disabled="disabled">
+                                                                </div>
+                                                                <div class="col-sm-8">
+
+                                                                    <input class="form-control mb-10 " type="text"
+                                                                        placeholder="Option 1"
+                                                                        formControlName="optionTitle">
+                                                                    <a class="btn btn-info btn-sm btn-space"
+                                                                        (click)="add(i,j)">Add Option</a>&nbsp;&nbsp;
+                                                                    <span class="btn btn-danger btn-sm btn-space"
+                                                                        *ngIf="getOptions(question).length > 1"
+                                                                        (click)="removeOption(i,j)">Remove Option</span>
+                                                                </div>
+                                                            </div>
+
+
+
+                                                        </div>
+                                                        <!-- End Option Addition -->
+                                                        <!-- Option Addtion -->
+                                                        <!-- End Option Addition -->
+
+                                                    </div>
+                                                    <a class="btn btn-default btn-space btn-sm mb-10" (click)="addQuestion(i)">Add
+                                                        Question</a> &nbsp;&nbsp;
+                                                    <span class="btn btn-danger btn-space btn-sm mb-10"
+                                                        *ngIf="getQuestions(section).length > 1"
+                                                        (click)="removeQuestion(i)">Remove Question</span>
+                                                </div>
+                                            </div>
+                                            <!-- End Question -->
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- End Section -->
+                        <div class="col-md-12 text-right">
+                            <button [disabled]="(survey.value.sections[0].MachineName!='')?false:true" class="btn btn-info">
+                                Submit
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <!--
+<pre> {{survey.value | json}} </pre>
+-->

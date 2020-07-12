@@ -1,0 +1,29 @@
+<div class="box-body">
+    <app-loading [isLoading]="isLoading"></app-loading>
+    <div class="row">
+        <div class="col-sm-12 addproduct_form" *ngIf="!isLoading">
+            <form [formGroup]="productAddForm" (ngSubmit)="submitAddProduct()">
+                <div class='card-box'>
+                    <div class='form-group row' *ngFor="let form of formBody">
+                        <mat-form-field class='col-sm-12' *ngIf="form.type=='select'">
+                            <mat-label class='col-sm-12 col-form-label'>{{form.label}}</mat-label>
+                            <mat-select formControlName={{form.name}}>
+                                <mat-option *ngFor="let option of form.options" [value]="option.value">
+                                    {{option.text}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field class="col-md-12" *ngIf="form.type=='input'">
+                            <mat-label class='col-sm-12 col-form-label'>{{form.label}}</mat-label>
+                            <input matInput type='number' formControlName={{form.name}} />
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class='col-md-12 text-right'>
+                    <button mat-raised-button color="primary">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+           

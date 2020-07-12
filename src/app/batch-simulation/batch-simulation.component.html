@@ -1,0 +1,174 @@
+<div class="content-header">
+  <h1>
+    Simulation
+  </h1>
+  <ol class="breadcrumb">
+    <li class="#"><i class="fa fa-dashboard"></i> Home</li>
+    <li class="#">Simulation</li>
+    <li>
+      <a href="active"> Batch Simulation</a>
+    </li>
+  </ol>
+</div>
+<div class="content">
+  <!-- Simulation Form -->
+  <div *ngIf="!simulationResultFlag">
+    <div class="row">
+      <div class="col-lg-12 col-xs-12">
+        <div class="box box-info">
+          <div class="box-header with-border">
+            <h3 class="box-title">Batch Simulation</h3>
+          </div>
+          <!-- /.box-header -->
+
+          <app-loading [isLoading]="isLoading"></app-loading>
+          <div class="box-body">
+            <div class="row">
+              <form [formGroup]="orderQuotForm" (ngSubmit)="onGo()">
+                <div class="col-md-3">
+                  <mat-form-field>
+                    <mat-select placeholder="Select..." formControlName="orderQuot"
+                      (selectionChange)="getDateList($event)">
+                      <mat-option *ngFor="let element of orderQuotList" [value]="element.val">
+                        {{element.name}}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="goClicked && orderQuotForm.controls.orderQuot.errors">Please select</mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-3">
+                  <mat-form-field>
+                    <mat-select placeholder="Select Date" formControlName="selDate">
+                      <mat-option *ngFor="let element of dateList" [value]="element.val">
+                        {{element.name}}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="goClicked && orderQuotForm.controls.selDate.errors">Please select</mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-3">
+                  <button mat-raised-button class="mr-1" color="primary">Go</button>
+                </div>
+              </form>
+              <div class="col-md-3">
+                <mat-form-field class="select-simulation-name">
+                  <mat-label>Simulation Name</mat-label>
+                  <mat-select>
+                    <mat-option *ngFor="let element of savedSimulNameLists; let i=index" [value]="element.Simulation"
+                      (click)="simulationSelect(element.Simulation, element.SimulationName)">
+                      {{element.SimulationName}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12 mb-10">
+                <form [formGroup]="dynamicForm" (ngSubmit)="onSubmit()">
+                  <div class="card m-3">
+                    <div class="card-body">
+                      <div class="form-row">
+                        <div class="form-group">
+                          <div *ngIf="submitted" class="invalid-feedback">
+                            <div *ngIf="!numberOfTickets" class="custom-alert">
+                              Please add at least one form
+                            </div>
+                            <div *ngIf="isInvalid" class="custom-alert">
+                              Please fill out all fields
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div *ngFor="let ticket of t.controls; let i = index" class="list-group list-group-flush">
+                      <div [formGroup]="ticket" class="form-row">
+                        <mat-form-field class="col-md-1">
+                          <input matInput type="number" formControlName="Orders" placeholder="Order"
+                            (change)="onChangeInput()" />
+                          <mat-error *ngIf="submitted && ticket.controls.Orders.errors">Order is required</mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field class="col-md-2">
+                          <input matInput type="text" formControlName="productCode" placeholder="Product Code" />
+                          <mat-error *ngIf="submitted && ticket.controls.productCode.errors">
+                            Product code is required
+                          </mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field class="col-md-2">
+                          <input matInput type="number" formControlName="Quantity" placeholder="Quantity" />
+                          <mat-error *ngIf="submitted && ticket.controls.Quantity.errors">Quantity is required
+                          </mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field class="col-md-1">
+                          <input matInput type="number" formControlName="ICMS" placeholder="ICMS" />
+                          <mat-error *ngIf="submitted && ticket.controls.ICMS.errors">ICMS is required
+                          </mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field class="col-md-1">
+                          <input matInput type="number" formControlName="PIS" placeholder="PIS" readonly />
+                          <!-- <mat-error *ngIf="submitted && ticket.controls.PIS.errors">PIS is required -->
+                          <!-- </mat-error> -->
+                        </mat-form-field>
+
+                        <mat-form-field class="col-md-1">
+                          <input matInput type="number" formControlName="COFINS" placeholder="COFINS" readonly />
+                          <!-- <mat-error *ngIf="submitted && ticket.controls.COFINS.errors">COFINS is required -->
+                          <!-- </mat-error> -->
+                        </mat-form-field>
+
+                        <mat-form-field class="col-md-2">
+                          <input matInput type="number" formControlName="Comission" placeholder="Comission" />
+                          <mat-error *ngIf="submitted && ticket.controls.Comission.errors">Comission is required
+                          </mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field class="col-md-1">
+                          <input matInput type="number" formControlName="Ship" placeholder="Ship" />
+                          <mat-error *ngIf="submitted && ticket.controls.Ship.errors">Ship is required
+                          </mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field class="col-md-1">
+                          <input matInput type="number" formControlName="Margin" placeholder="Margin" />
+                          <mat-error *ngIf="submitted && ticket.controls.Margin.invalid">Margin is required
+                          </mat-error>
+                        </mat-form-field>
+
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12 footer">
+                        <div class="card-footer text-center">
+                          <button mat-raised-button class="mr-1" color="primary">Submit</button>
+                          <button mat-raised-button class="mr-1" type="reset" (click)="onReset()">
+                            Reset
+                          </button>
+                          <button mat-raised-button (click)="onClear()" type="button">
+                            Clear
+                          </button>
+                          <button mat-raised-button (click)="onAddForm()" type="button">
+                            +
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Simulation Result -->
+  <div *ngIf="simulationResultFlag">
+    <app-batch-simulation-result [data]="simulationResult" [tax]="tax"
+      (simulationResultFlagChange)="getUpdatedSimResultFlag($event)"></app-batch-simulation-result>
+  </div>
+</div>

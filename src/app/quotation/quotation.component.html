@@ -1,0 +1,89 @@
+<div class="content-header">
+    <h1>
+        Sales
+    </h1>
+    <ol class="breadcrumb">
+        <li><i class="fa fa-dashboard"></i>Home</li>
+        <li>Sales</li>
+        <li class="active">Quotation</li>
+    </ol>
+</div>
+<div class="content">
+    <div class="row">
+        <div class="col-lg-12 col-xs-12">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Quotation</h3>
+                </div>
+                <div class="box-body">
+                    <app-loading [isLoading]="isLoading"></app-loading>
+                    <div class="row">
+                        <div class="col-sm-12 mb-10" style="margin-top: 10px;">
+                            <label>Quotation</label>
+                            <hr style="margin-top: 0px;" />
+                            <mat-form-field class="table-filter">
+                                <mat-label>Filter</mat-label>
+                                <input matInput (keyup)="applyFilter($event)" placeholder="">
+                            </mat-form-field>
+                            <div class="mat-elevation-z8">
+                                <table mat-table [dataSource]="quotData" matSort matSortActive="Id" matSortDisableClear>
+                                    <ng-container matColumnDef="Id">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Quot(Id) </th>
+                                        <td mat-cell *matCellDef="let element"> {{element.Id}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="Login">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Salesperson </th>
+                                        <td mat-cell *matCellDef="let element"> {{element.Login}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="Client">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Client </th>
+                                        <td mat-cell *matCellDef="let element"> {{element.Client}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="ProductCode">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Product </th>
+                                        <td mat-cell *matCellDef="let element"> {{element.ProductCode}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="Quantity">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Quantity </th>
+                                        <td mat-cell *matCellDef="let element"> {{element.Quantity}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="DueDate">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Due Date </th>
+                                        <td mat-cell *matCellDef="let element"> {{element.DueDate}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="Price">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Price </th>
+                                        <td mat-cell *matCellDef="let element"> {{element.Price}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="seeMore">
+                                        <th mat-header-cell *matHeaderCellDef> See more </th>
+                                        <td mat-cell *matCellDef="let element">
+                                            <button mat-button (click)="seeMore(element.Id)">See more</button>
+                                        </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="makeOrder">
+                                        <th mat-header-cell *matHeaderCellDef> Order </th>
+                                        <td mat-cell *matCellDef="let element">
+                                            <button mat-button (click)="makeOrder(element.Id)">Make Order</button>
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="quotColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: quotColumns;"></tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

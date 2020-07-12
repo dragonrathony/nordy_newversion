@@ -1,0 +1,8 @@
+body {
+  background-color: #4472c4 !important;
+}
+
+
+.account-pages{
+  height: calc(100vh - (6rem + 30px));
+}
