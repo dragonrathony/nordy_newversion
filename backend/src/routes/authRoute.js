@@ -7,5 +7,3 @@ export default  (app) => {
 
   router.post('/api/login', controller.loginController.login);
 };
-
-// export default route;
