@@ -1,8 +1,8 @@
-const mysql = require('mysql');
+import { createConnection } from 'mysql';
 
 class Database {
     constructor(config) {
-        this.connection = mysql.createConnection(config);
+        this.connection = createConnection(config);
         this.connection.connect(function (err) {
             if (err) throw err;
             console.log("DB is connected");
@@ -18,7 +18,7 @@ class Database {
             });
         });
     }
-    
+
     close() {
         return new Promise((resolve, reject) => {
             this.connection.end(err => {
@@ -30,4 +30,4 @@ class Database {
     }
 }
 
-module.exports = Database;
+export default Database;

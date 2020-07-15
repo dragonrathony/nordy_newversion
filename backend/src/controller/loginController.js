@@ -1,7 +1,7 @@
 import { database } from '../config/db';
 
 const loginController = {
-    login(req, res, next) {
+    login(req, res) {
         console.log("login information====>", req.body);
 
         let parms = [req.body.username, req.body.password];

@@ -1,6 +1,6 @@
 require('dotenv').config();
 
-let Database = require('../helper/database');
+import Database from '../helper/database';
 let database = new Database({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
@@ -8,4 +8,4 @@ let database = new Database({
   database: process.env.DB_NAME
 });
 
-module.exports = { database };
+export default { database };
