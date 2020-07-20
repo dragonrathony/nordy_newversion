@@ -130,6 +130,102 @@ const productHelper = {
                     });
             });
         });
+    },
+
+
+    addProduct(req, res) {
+        let formdata = req.body.raw;
+        let ProductCode = formdata['ProductCode'];
+        let family = 'NOFAMILY';
+        let noformfields = ["ProductCode", "Family"];
+        // res.json({ message: 'addded successfully!', error: 0, result: ProductCode })
+        database.query('INSERT INTO product_head(product_code, family_name) VALUES(?,?)', [ProductCode, family])
+            .then(result => {
+                // console.log('producthead is inserted', result)
+                let ProductHeaderID = result.insertId;
+                let Finalproductcode = "";
+
+                Object.keys(formdata).forEach(key => {
+                    let fieldName = key;
+                    if (noformfields.indexOf(fieldName) < 0) {
+                        let filedNameArray = fieldName.split("-");
+                        if (filedNameArray[1] == "select")
+                            optionvalue = formdata[key].split("_");
+
+                        let ProductCharChildId = filedNameArray[1] == "select" ? optionvalue[0] : 0;
+                        let val = formdata[key] == '' ? 0 : formdata[key];
+                        let ProductCharChildValue = filedNameArray[1] == "select" ? 0 : val;
+
+                        Finalproductcode += (filedNameArray[1] == "select" && val != 0 && optionvalue[1] != "NOFAMILY") ? optionvalue[1] : "";
+                        Finalproductcode += (filedNameArray[1] != "select" && val != '' && filedNameArray[3] != "NOFAMILY") ? filedNameArray[3] : "";
+
+                        database.query('INSERT INTO product_body(product_header_id, product_char_father_id, product_char_child_id, product_char_child_value) VALUES(?,?,?,?)',
+                            [ProductHeaderID, filedNameArray[2], ProductCharChildId, ProductCharChildValue])
+                            .then(result => {
+                                console.log('productbody data is saved', result)
+                            })
+                            .catch(err => res.json({ message: 'Oops, error occured!', error: 1, result: err }));
+                    }
+                });
+                
+                database.query('UPDATE product_head SET family_name=? WHERE Id=?', [Finalproductcode, ProductHeaderID])
+                    .then(result => {
+                        res.json({ message: 'Saved successfully!', error: 0, result: result });
+                    })
+                    .catch(err => res.json({ message: 'Oops, error occured!', error: 1, result: err }));
+            })
+            .catch(err => res.json({ message: 'Oops, error occured!', error: 1, result: err }));
+    },
+
+
+    updateProduct(ProductHeaderID, req, res) {
+        let formdata = req.body.raw;
+        let ProductCode = formdata['ProductCode'];
+        let family = 'NOFAMILY';
+        let noformfields = ["ProductCode", "Family"];
+        // res.json({ message: 'update  successfully!', error: 0, result: ProductCode })
+        database.query('UPDATE product_head SET family_name=? WHERE product_code=?', [family, ProductCode])
+            .then(result => {
+                // delete origin productbody record
+                database.query('DELETE FROM product_body WHERE product_header_id=?', [ProductHeaderID])
+                    .then(result => {
+                        // console.log('Deleted product body record successfully');
+                        let Finalproductcode = "";
+
+                        Object.keys(formdata).forEach(key => {
+                            let fieldName = key;
+                            if (noformfields.indexOf(fieldName) < 0) {
+                                let filedNameArray = fieldName.split("-");
+                                if (filedNameArray[1] == "select")
+                                    optionvalue = formdata[key].split("_");
+
+                                let ProductCharChildId = filedNameArray[1] == "select" ? optionvalue[0] : 0;
+                                let val = formdata[key] == '' ? 0 : formdata[key];
+                                let ProductCharChildValue = filedNameArray[1] == "select" ? 0 : val;
+
+                                Finalproductcode += (filedNameArray[1] == "select" && val != 0 && optionvalue[1] != "NOFAMILY") ? optionvalue[1] : "";
+                                Finalproductcode += (filedNameArray[1] != "select" && val != '' && filedNameArray[3] != "NOFAMILY") ? filedNameArray[3] : "";
+
+                                database.query('INSERT INTO product_body(product_header_id, product_char_father_id, product_char_child_id, product_char_child_value) VALUES(?,?,?,?)',
+                                    [ProductHeaderID, filedNameArray[2], ProductCharChildId, ProductCharChildValue])
+                                    .then(result => {
+                                        // console.log('productbody data is updated', result)
+                                    })
+                                    .catch(err => res.json({ message: 'Oops, error occured!', error: 1, result: err }));
+                            }
+                        });
+
+                        database.query('UPDATE product_head SET family_name=? WHERE Id=?', [Finalproductcode, ProductHeaderID])
+                            .then(result => {
+                                res.json({ message: 'Updated successfully!', error: 0, result: result });
+                            })
+                            .catch(err => res.json({ message: 'Oops, error occured!', error: 1, result: err }));
+                    })
+                    .catch(err => {
+                        console.log('productbody delete error');
+                    });
+            })
+            .catch(err => res.json({ message: 'Oops, error occured!', error: 1, result: err }));
     }
 }
 
