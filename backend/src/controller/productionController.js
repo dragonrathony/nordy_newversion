@@ -6,7 +6,7 @@ const productionController = {
         let formdata = req.body.raw;
         let ProductCode = formdata['ProductCode'];
         let ProductHeaderID;
-        database.query('SELECT Id FROM producthead WHERE ProductCode=?', [ProductCode])
+        database.query('SELECT Id FROM product_head WHERE product_code=?', [ProductCode])
             .then(result => {
                 if (result.length) {
                     // Call update product

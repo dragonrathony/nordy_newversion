@@ -147,6 +147,7 @@ const productHelper = {
 
                 Object.keys(formdata).forEach(key => {
                     let fieldName = key;
+                    let optionvalue;
                     if (noformfields.indexOf(fieldName) < 0) {
                         let filedNameArray = fieldName.split("-");
                         if (filedNameArray[1] == "select")
@@ -164,17 +165,20 @@ const productHelper = {
                             .then(result => {
                                 console.log('productbody data is saved', result)
                             })
-                            .catch(err => res.json({ message: 'Oops, error occured!', error: 1, result: err }));
+                            .catch(err => res.json({ message: 'Oops, error occured11!', error: 1, result: err }));
                     }
                 });
-                
-                database.query('UPDATE product_head SET family_name=? WHERE Id=?', [Finalproductcode, ProductHeaderID])
+
+                database.query('UPDATE product_head SET family_name=? WHERE id=?', [Finalproductcode, ProductHeaderID])
                     .then(result => {
                         res.json({ message: 'Saved successfully!', error: 0, result: result });
                     })
-                    .catch(err => res.json({ message: 'Oops, error occured!', error: 1, result: err }));
+                    .catch(err => res.json({ message: 'Oops, error occured22!', error: 1, result: err }));
             })
-            .catch(err => res.json({ message: 'Oops, error occured!', error: 1, result: err }));
+            .catch(err => {
+                console.log('error33', err)
+                res.json({ message: 'Oops, error occured33!', error: 1, result: err })
+            });
     },
 
 
@@ -194,6 +198,7 @@ const productHelper = {
 
                         Object.keys(formdata).forEach(key => {
                             let fieldName = key;
+                            let optionvalue;
                             if (noformfields.indexOf(fieldName) < 0) {
                                 let filedNameArray = fieldName.split("-");
                                 if (filedNameArray[1] == "select")
