@@ -7,4 +7,5 @@ export default  (app) => {
 
   // add product
   router.post('/api/productSaveWithProductCode', controller.productionController.add);
+  router.get('/api/initFormByProductCode', controller.productionController.init);
 };
