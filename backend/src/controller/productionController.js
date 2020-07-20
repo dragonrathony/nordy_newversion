@@ -1,4 +1,5 @@
 import database from '../config/db';
+import productHelper from '../helper/productHelper';
 
 const productionController = {
     add(req, res) {
@@ -59,56 +60,36 @@ const productionController = {
             });
     },
 
-    init(req, res) {
-        let returnVal = []
-        var family = "";
-        database.query('SELECT label, product_char_father_id, family_name FROM product_char1').then(result => {
-            database.query('SELECT * FROM product_char2 order by product_char_father_id').then(result2 => {
-                result.forEach(element => {
-                    let tempResult = { label: '', type: '', name: '', options: [] }; // labe, type, name, value, text
-                    dropdownStart = false;
-                    tempResult['label'] = element.label;
-                    result2.forEach(element2 => {
-                        if (element.product_char_father_id == element2.product_char_father_id) {
-                            if (element.family_name == 1) {
-                                family = element2.product_child_nick_name;
-                            } else {
-                                family = 'NOFAMILY';
-                            }
-                            if (element2.ProductChildId == 0) {
-                                tempResult['type'] = 'input';
-                                tempResult['name'] = `ProductCharFatherId-input-${element.product_char_father_id}-${family}`
-                            } else {
-                                if (!dropdownStart) {
-                                    selectOption = {};
-                                    tempResult['type'] = 'select';
-                                    tempResult['name'] = `ProductCharFatherId-select-${element.product_char_father_id}`
-                                    selectOption['text'] = '--Select--';
-                                    selectOption['value'] = 0;
-                                    tempResult['options'].push(selectOption);
-                                    dropdownStart = true;
-                                }
-                                selectOption = {};
-                                let tempValue = `${element2.product_child_id}_${family}`;
-                                let tempText = element2.ProductChildDesc
-                                selectOption['text'] = tempText;
-                                selectOption['value'] = tempValue;
-                                tempResult['options'].push(selectOption);
-                            }
-                        }
-                    });
-                    returnVal.push(tempResult)
+    // init product form by product code
+    async init(req, res) {
+        let productCode = req.params.productCode;
+
+        if (productCode === 'null') {
+            console.log('product code is null')
+            productHelper.initProductForm(res);
+        } else {
+            // get product add form using productCode
+            console.log('productcode is not null')
+            database.query('SELECT id, family_name FROM product_head WHERE product_code=?', [productCode])
+                .then(producthead => {
+                    if (producthead.length) {
+                        let oldproductHeadId = producthead[0].id;
+                        database.query('SELECT * FROM product_body WHERE product_header_id=?', [oldproductHeadId])
+                            .then(productbody => {
+                                productHelper.initByProductCode(productbody, res);
+                            })
+                            .catch(err => {
+                                console.log('select product body error', err)
+                            });
+                    } else {
+                        productHelper.initProductForm();
+                    }
+                })
+                .catch(err => {
+                    console.log('err', err)
                 });
-                // push product code form
-                let tempResult = { label: '', type: '', name: '', options: [] }; // labe, type, name, value, text
-                tempResult['label'] = 'Product Code';
-                tempResult['type'] = 'input';
-                tempResult['name'] = 'ProductCode';
-                returnVal.push(tempResult)
-                res.json(returnVal)
-            });
-        });
-    }
+        }
+    },
 };
 
 export default productionController;
