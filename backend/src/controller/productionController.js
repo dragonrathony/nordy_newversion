@@ -1,24 +1,26 @@
 import database from '../config/db';
 import productHelper from '../helper/productHelper';
+import returnResult from '../helper/result';
 
 const productionController = {
     add(req, res) {
         let formdata = req.body.raw;
         let ProductCode = formdata['ProductCode'];
-        let ProductHeaderID;
-        database.query('SELECT Id FROM product_head WHERE product_code=?', [ProductCode])
+        let productHeaderId;
+        database.query('SELECT id FROM product_head WHERE product_code=?', [ProductCode])
             .then(result => {
                 if (result.length) {
                     // Call update product
-                    ProductHeaderID = result[0].Id;
-                    productHelper.updateProduct(ProductHeaderID, req, res);
+                    productHeaderId = result[0].Id;
+                    productHelper.updateProduct(productHeaderId, req, res);
                 } else {
                     // Call add product
                     productHelper.addProduct(req, res);
                 }
             })
             .catch(err => {
-                console.log('Error: ', err)
+                console.log('Add product error: ', err);
+                returnResult(res, 'Add product error!', err);
             });
     },
 

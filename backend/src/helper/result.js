@@ -1,8 +1,17 @@
-function returnResult(res, message, data) {
-  res.status(200).json({
+/**
+ * 
+ * @param {response object} res 
+ * @param {string} message 
+ * @param {1: error, 0: success} error 
+ * @param {response data} result 
+ */
+
+function returnResult(res, message, error, result) {
+  res.json({
     message: message,
-    result: data
+    error: error,
+    result: result
   });
 }
 
-module.exports = returnResult;
+export default returnResult;

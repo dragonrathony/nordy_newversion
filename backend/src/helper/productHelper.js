@@ -1,4 +1,5 @@
 import database from '../config/db';
+import returnResult from '../helper/result';
 
 const productHelper = {
     initProductForm(res) {
@@ -147,17 +148,17 @@ const productHelper = {
 
                 Object.keys(formdata).forEach(key => {
                     let fieldName = key;
-                    let optionvalue;
+                    let optionValue;
                     if (noformfields.indexOf(fieldName) < 0) {
                         let filedNameArray = fieldName.split("-");
                         if (filedNameArray[1] == "select")
-                            optionvalue = formdata[key].split("_");
+                            optionValue = formdata[key].split("_");
 
-                        let ProductCharChildId = filedNameArray[1] == "select" ? optionvalue[0] : 0;
+                        let ProductCharChildId = filedNameArray[1] == "select" ? optionValue[0] : 0;
                         let val = formdata[key] == '' ? 0 : formdata[key];
                         let ProductCharChildValue = filedNameArray[1] == "select" ? 0 : val;
 
-                        Finalproductcode += (filedNameArray[1] == "select" && val != 0 && optionvalue[1] != "NOFAMILY") ? optionvalue[1] : "";
+                        Finalproductcode += (filedNameArray[1] == "select" && val != 0 && optionValue[1] != "NOFAMILY") ? optionValue[1] : "";
                         Finalproductcode += (filedNameArray[1] != "select" && val != '' && filedNameArray[3] != "NOFAMILY") ? filedNameArray[3] : "";
 
                         database.query('INSERT INTO product_body(product_header_id, product_char_father_id, product_char_child_id, product_char_child_value) VALUES(?,?,?,?)',
@@ -181,55 +182,48 @@ const productHelper = {
     },
 
 
-    updateProduct(ProductHeaderID, req, res) {
+    updateProduct(productHeaderId, req, res) {
         let formdata = req.body.raw;
-        let ProductCode = formdata['ProductCode'];
+        let productCode = formdata['ProductCode'];
         let family = 'NOFAMILY';
         let noformfields = ["ProductCode", "Family"];
-        // res.json({ message: 'update  successfully!', error: 0, result: ProductCode })
-        database.query('UPDATE product_head SET family_name=? WHERE product_code=?', [family, ProductCode])
-            .then(result => {
+
+        database.query('UPDATE product_head SET family_name=? WHERE product_code=?', [family, productCode])
+            .then(() => {
                 // delete origin productbody record
-                database.query('DELETE FROM product_body WHERE product_header_id=?', [ProductHeaderID])
-                    .then(result => {
-                        // console.log('Deleted product body record successfully');
-                        let Finalproductcode = "";
+                database.query('DELETE FROM product_body WHERE product_header_id=?', [productHeaderId])
+                    .then(() => {
+                        let finalProductCode = "";
 
                         Object.keys(formdata).forEach(key => {
                             let fieldName = key;
-                            let optionvalue;
+                            let optionValue;
                             if (noformfields.indexOf(fieldName) < 0) {
                                 let filedNameArray = fieldName.split("-");
                                 if (filedNameArray[1] == "select")
-                                    optionvalue = formdata[key].split("_");
+                                    optionValue = formdata[key].split("_");
 
-                                let ProductCharChildId = filedNameArray[1] == "select" ? optionvalue[0] : 0;
+                                let productCharChildId = filedNameArray[1] == "select" ? optionValue[0] : 0;
                                 let val = formdata[key] == '' ? 0 : formdata[key];
-                                let ProductCharChildValue = filedNameArray[1] == "select" ? 0 : val;
+                                let productCharChildValue = filedNameArray[1] == "select" ? 0 : val;
 
-                                Finalproductcode += (filedNameArray[1] == "select" && val != 0 && optionvalue[1] != "NOFAMILY") ? optionvalue[1] : "";
-                                Finalproductcode += (filedNameArray[1] != "select" && val != '' && filedNameArray[3] != "NOFAMILY") ? filedNameArray[3] : "";
+                                finalProductCode += (filedNameArray[1] == "select" && val != 0 && optionValue[1] != "NOFAMILY") ? optionValue[1] : "";
+                                finalProductCode += (filedNameArray[1] != "select" && val != '' && filedNameArray[3] != "NOFAMILY") ? filedNameArray[3] : "";
 
                                 database.query('INSERT INTO product_body(product_header_id, product_char_father_id, product_char_child_id, product_char_child_value) VALUES(?,?,?,?)',
-                                    [ProductHeaderID, filedNameArray[2], ProductCharChildId, ProductCharChildValue])
-                                    .then(result => {
-                                        // console.log('productbody data is updated', result)
-                                    })
-                                    .catch(err => res.json({ message: 'Oops, error occured!', error: 1, result: err }));
+                                    [productHeaderId, filedNameArray[2], productCharChildId, productCharChildValue])
+                                    .then(() => {/* console.log('productbody data is updated'); */ })
+                                    .catch(err => returnResult(res, 'Oops, error occured in recording product body!', 1, err));
                             }
                         });
 
-                        database.query('UPDATE product_head SET family_name=? WHERE Id=?', [Finalproductcode, ProductHeaderID])
-                            .then(result => {
-                                res.json({ message: 'Updated successfully!', error: 0, result: result });
-                            })
-                            .catch(err => res.json({ message: 'Oops, error occured!', error: 1, result: err }));
+                        database.query('UPDATE product_head SET family_name=? WHERE id=?', [finalProductCode, productHeaderId])
+                            .then(result => returnResult(res, 'Updated successfully!', 0, result))
+                            .catch(err => returnResult(res, 'Oops, error occured in updating product head secondly!', 1, err));
                     })
-                    .catch(err => {
-                        console.log('productbody delete error');
-                    });
+                    .catch(err => returnResult(res, 'Oops, error occured in deleting product body!', 1, err));
             })
-            .catch(err => res.json({ message: 'Oops, error occured!', error: 1, result: err }));
+            .catch(err => returnResult(res, 'Oops, error occured in updating product head first!', 1, err));
     }
 }
 

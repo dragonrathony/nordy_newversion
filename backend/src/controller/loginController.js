@@ -9,12 +9,13 @@ const loginController = {
         database.query(query, parms)
             .then(result => {
                 if (result.length == 0) {
-                    returnResult(res, 'Invalid credentials!', []);
+                    returnResult(res, 'Invalid credentials!', 1, []);
+                } else {
+                    returnResult(res, 'Login success!', 0, result[0]);
                 }
-                returnResult(res, 'Login success!', result[0]);
             })
             .catch(err => {
-                returnResult(res, 'Login failed!', err);
+                returnResult(res, 'Login failed!', 1, err);
             });
     }
 };
