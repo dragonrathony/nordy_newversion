@@ -3,16 +3,17 @@ import returnResult from '../helper/result';
 
 const productHelper = {
     initProductForm(res) {
-        let returnResult = { form: [], productcodeList: [] };
+        let productForm = { form: [], productcodeList: [] };
         let returnVal = [];
-        var family = "";
-        database.query('SELECT label, product_char_father_id, family_name FROM product_char1').then(result => {
-            database.query('SELECT * FROM product_char2 order by product_char_father_id').then(result2 => {
-                result.forEach(element => {
+        let family = "";
+
+        database.query('SELECT label, product_char_father_id, family_name FROM product_char1').then(char1 => {
+            database.query('SELECT * FROM product_char2 order by product_char_father_id').then(char2 => {
+                char1.forEach(element => {
                     let tempResult = { label: '', type: '', name: '', options: [], val: '' }; // labe, type, name, value, text
                     dropdownStart = false;
                     tempResult['label'] = element.Label;
-                    result2.forEach(element2 => {
+                    char2.forEach(element2 => {
                         if (element.product_char_father_id == element2.product_char_father_id) {
                             if (element.family_name == 1) {
                                 family = element2.product_chilc_nick_name;
@@ -48,28 +49,26 @@ const productHelper = {
                 database.query("SELECT DISTINCT product_code FROM product_head")
                     .then(productcodeList => {
                         Object.keys(productcodeList).forEach(key => {
-                            returnResult.productcodeList.push(productcodeList[key]['product_code'])
+                            productForm.productcodeList.push(productcodeList[key]['product_code'])
                         })
 
-                        returnResult.form = returnVal;
-                        console.log('return result', returnResult)
-                        res.json(returnResult);
+                        productForm.form = returnVal;
+                        returnResult(res, 'Product add form', 0, productForm);
                     })
-                    .catch(err => {
-                        console.log('productcode list getting error', err)
-                    });
+                    .catch(err => returnResult(res, 'Oops, error in getting product form', 1, err));
             });
         });
     },
 
 
     initByProductCode(productbody, res) {
-        let returnResult = { form: [], productcodeList: [] };
+        let productForm = { form: [], productcodeList: [] };
         let returnVal = [];
-        var family = "";
-        database.query('SELECT label, product_char_father_id, family_name FROM product_char1').then(result => {
-            database.query('SELECT * FROM product_char2 order by product_char_father_id').then(result2 => {
-                result.forEach(element => {
+        let family = "";
+
+        database.query('SELECT label, product_char_father_id, family_name FROM product_char1').then(char1 => {
+            database.query('SELECT * FROM product_char2 order by product_char_father_id').then(char2 => {
+                char1.forEach(element => {
                     let productbodyItem = productbody.filter(function (item) {
                         return item.product_char_father_id == element.product_char_father_id
                     });
@@ -78,7 +77,7 @@ const productHelper = {
                     dropdownStart = false;
                     tempResult['label'] = element.Label;
 
-                    result2.forEach(element2 => {
+                    char2.forEach(element2 => {
                         if (element.product_char_father_id == element2.product_char_father_id) {
                             if (element.family_name == 1) {
                                 family = element2.product_child_nick_name;
@@ -120,15 +119,13 @@ const productHelper = {
                 database.query("SELECT DISTINCT product_code FROM product_head")
                     .then(productcodeList => {
                         Object.keys(productcodeList).forEach(key => {
-                            returnResult.productcodeList.push(productcodeList[key]['product_code'])
+                            productForm.productcodeList.push(productcodeList[key]['product_code'])
                         });
 
-                        returnResult.form = returnVal;
-                        res.json(returnResult);
+                        productForm.form = returnVal;
+                        returnResult(res, 'Product add form for code', 0, productForm);
                     })
-                    .catch(err => {
-                        console.log('productcode list getting error', err)
-                    });
+                    .catch(err => returnResult(res, 'Oops, error in getting product form by code', 1, err));
             });
         });
     },
@@ -136,15 +133,14 @@ const productHelper = {
 
     addProduct(req, res) {
         let formdata = req.body.raw;
-        let ProductCode = formdata['ProductCode'];
+        let productCode = formdata['ProductCode'];
         let family = 'NOFAMILY';
         let noformfields = ["ProductCode", "Family"];
-        // res.json({ message: 'addded successfully!', error: 0, result: ProductCode })
-        database.query('INSERT INTO product_head(product_code, family_name) VALUES(?,?)', [ProductCode, family])
+
+        database.query('INSERT INTO product_head(product_code, family_name) VALUES(?,?)', [productCode, family])
             .then(result => {
-                // console.log('producthead is inserted', result)
-                let ProductHeaderID = result.insertId;
-                let Finalproductcode = "";
+                let productHeaderId = result.insertId;
+                let finalProductCode = "";
 
                 Object.keys(formdata).forEach(key => {
                     let fieldName = key;
@@ -154,31 +150,25 @@ const productHelper = {
                         if (filedNameArray[1] == "select")
                             optionValue = formdata[key].split("_");
 
-                        let ProductCharChildId = filedNameArray[1] == "select" ? optionValue[0] : 0;
+                        let productCharChildId = filedNameArray[1] == "select" ? optionValue[0] : 0;
                         let val = formdata[key] == '' ? 0 : formdata[key];
-                        let ProductCharChildValue = filedNameArray[1] == "select" ? 0 : val;
+                        let productCharChildValue = filedNameArray[1] == "select" ? 0 : val;
 
-                        Finalproductcode += (filedNameArray[1] == "select" && val != 0 && optionValue[1] != "NOFAMILY") ? optionValue[1] : "";
-                        Finalproductcode += (filedNameArray[1] != "select" && val != '' && filedNameArray[3] != "NOFAMILY") ? filedNameArray[3] : "";
+                        finalProductCode += (filedNameArray[1] == "select" && val != 0 && optionValue[1] != "NOFAMILY") ? optionValue[1] : "";
+                        finalProductCode += (filedNameArray[1] != "select" && val != '' && filedNameArray[3] != "NOFAMILY") ? filedNameArray[3] : "";
 
                         database.query('INSERT INTO product_body(product_header_id, product_char_father_id, product_char_child_id, product_char_child_value) VALUES(?,?,?,?)',
-                            [ProductHeaderID, filedNameArray[2], ProductCharChildId, ProductCharChildValue])
-                            .then(result => {
-                                console.log('productbody data is saved', result)
-                            })
-                            .catch(err => res.json({ message: 'Oops, error occured!', error: 1, result: err }));
+                            [productHeaderId, filedNameArray[2], productCharChildId, productCharChildValue])
+                            .then(() => { /* console.log('productbody data is saved') */ })
+                            .catch(err => returnResult(res, 'Oops, adding product body error!', 1, err));
                     }
                 });
 
-                database.query('UPDATE product_head SET family_name=? WHERE id=?', [Finalproductcode, ProductHeaderID])
-                    .then(result => {
-                        res.json({ message: 'Saved successfully!', error: 0, result: result });
-                    })
-                    .catch(err => res.json({ message: 'Oops, error occured!', error: 1, result: err }));
+                database.query('UPDATE product_head SET family_name=? WHERE id=?', [finalProductCode, productHeaderId])
+                    .then(result => returnResult(res, 'Saved successfully!', 0, result))
+                    .catch(err => returnResult(res, 'Oops, updating product head error!', 1, err));
             })
-            .catch(err => {
-                res.json({ message: 'Oops, error occured!', error: 1, result: err })
-            });
+            .catch(err => returnResult(res, 'Oops, adding product head error!', 1, err));
     },
 
 

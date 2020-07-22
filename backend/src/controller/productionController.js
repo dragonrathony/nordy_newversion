@@ -11,7 +11,7 @@ const productionController = {
             .then(result => {
                 if (result.length) {
                     // Call update product
-                    productHeaderId = result[0].Id;
+                    productHeaderId = result[0].id;
                     productHelper.updateProduct(productHeaderId, req, res);
                 } else {
                     // Call add product
@@ -20,7 +20,7 @@ const productionController = {
             })
             .catch(err => {
                 console.log('Add product error: ', err);
-                returnResult(res, 'Add product error!', err);
+                returnResult(res, 'Add product error!', 1, err);
             });
     },
 
@@ -29,11 +29,9 @@ const productionController = {
         let productCode = req.params.productCode;
 
         if (productCode === 'null') {
-            console.log('product code is null')
             productHelper.initProductForm(res);
         } else {
             // get product add form using productCode
-            console.log('productcode is not null')
             database.query('SELECT id, family_name FROM product_head WHERE product_code=?', [productCode])
                 .then(producthead => {
                     if (producthead.length) {
@@ -42,16 +40,12 @@ const productionController = {
                             .then(productbody => {
                                 productHelper.initByProductCode(productbody, res);
                             })
-                            .catch(err => {
-                                console.log('select product body error', err)
-                            });
+                            .catch(err => returnResult(res, 'select product body error!', 1, err));
                     } else {
-                        productHelper.initProductForm();
+                        productHelper.initProductForm(res);
                     }
                 })
-                .catch(err => {
-                    console.log('err', err)
-                });
+                .catch(err => returnResult(res, 'Product code error!', 1, err));
         }
     },
 };
