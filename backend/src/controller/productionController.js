@@ -23,7 +23,7 @@ const productionController = {
     },
 
     // init product form by product code
-    async init(req, res) {
+    init(req, res) {
         let productCode = req.params.productCode;
 
         if (productCode === 'null') {
