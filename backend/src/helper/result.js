@@ -1,9 +1,7 @@
-
-
-function  returnResult(res,message,data) {
+function returnResult(res, message, data) {
   res.status(200).json({
-  message: message ,
-  result:data
+    message: message,
+    result: data
   });
 }
 
