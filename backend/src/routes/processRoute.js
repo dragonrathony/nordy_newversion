@@ -5,6 +5,8 @@ const router = Router();
 export default  (app) => {
   app.use('/', router);
 
-  // add product
+  // get saved process list
   router.get('/api/getProcess', controller.processController.get);
+  // create process
+  router.post('/api/processSave', controller.processController.create);
 };
