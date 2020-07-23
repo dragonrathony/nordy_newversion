@@ -96,16 +96,17 @@ DROP TABLE IF EXISTS `ind_process`;
 
 CREATE TABLE `ind_process` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `process_name` varchar(100) NOT NULL,
   `shift_a` double DEFAULT NULL,
   `shift_b` double DEFAULT NULL,
   `shift_c` double DEFAULT NULL,
   `shift_d` double DEFAULT NULL,
   `shift_e` double DEFAULT NULL,
-  `status` enum('1','0') NOT NULL DEFAULT '1' COMMENT '1: active, 0: deactive',
+  `status` enum('1','0') NOT NULL DEFAULT '0' COMMENT '1: active, 0: deactive',
   `extra` longtext DEFAULT NULL,
   `bu` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`id`,`process_name`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 /*Data for the table `ind_process` */
 
@@ -177,7 +178,7 @@ CREATE TABLE `product_body` (
   `product_char_child_value` double DEFAULT NULL,
   `bu` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=280 DEFAULT CHARSET=utf8;
 
 /*Data for the table `product_body` */
 
@@ -235,8 +236,9 @@ CREATE TABLE `product_head` (
   `product_code` varchar(200) NOT NULL,
   `family_name` varchar(100) NOT NULL,
   `bu` int(11) NOT NULL,
-  PRIMARY KEY (`id`,`product_code`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`id`,`product_code`),
+  UNIQUE KEY `product_code` (`product_code`)
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 
 /*Data for the table `product_head` */
 
