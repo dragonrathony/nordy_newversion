@@ -13,5 +13,7 @@ export default  (app) => {
   router.get('/api/getProcessByid/:id', controller.processController.getById);
   // update process
   router.post('/api/processUpdate', controller.processController.update);
+  // update process status
+  router.post('/api/updatePrcoessStatus', controller.processController.updateStatus);
 
 };

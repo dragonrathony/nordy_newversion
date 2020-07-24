@@ -69,6 +69,17 @@ const processController = {
                 }
             })
             .catch(err => returnResult(res, 'Oops, Error in checking process name exist or not!', 1, err));
+    },
+
+    updateStatus(req, res) {
+        let id = req.body.raw.id;
+        let status = req.body.raw.status === "Deactive" ? '0' : '1';
+        console.log('status', status)
+        database.query('UPDATE ind_process SET status=? WHERE id=?', [status, id])
+            .then(result => {
+                returnResult(res, 'Successfully updated!', 0, result);
+            })
+            .catch(err => returnResult(res, 'Oops, Error in updating process status!', 1, err));
     }
 
 
