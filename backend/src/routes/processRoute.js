@@ -9,4 +9,7 @@ export default  (app) => {
   router.get('/api/getProcess', controller.processController.get);
   // create process
   router.post('/api/processSave', controller.processController.create);
+  // get process by id
+  router.get('/api/getProcessByid/:id', controller.processController.getById);
+
 };

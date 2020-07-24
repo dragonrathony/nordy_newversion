@@ -24,6 +24,17 @@ const processController = {
                 }
             })
             .catch(err => returnResult(res, 'Oops, Error in getting process!', 1, err));
+    },
+
+    getById(req, res) {
+        database.query('SELECT * FROM ind_process WHERE id=?', [req.params.id])
+            .then(result => {
+                if (result.length)
+                    returnResult(res, 'Success!', 0, result);
+                else
+                    returnResult(res, 'Oops, Unknown process id!', 1, result);
+            })
+            .catch(err => returnResult(res, 'Oops, there is error in seleting process!', 1, err));
     }
 
 };
