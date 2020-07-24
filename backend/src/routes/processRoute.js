@@ -11,5 +11,7 @@ export default  (app) => {
   router.post('/api/processSave', controller.processController.create);
   // get process by id
   router.get('/api/getProcessByid/:id', controller.processController.getById);
+  // update process
+  router.post('/api/processUpdate', controller.processController.update);
 
 };
