@@ -5,6 +5,7 @@ const router = Router();
 export default  (app) => {
   app.use('/', router);
 
-  router.get('/api/getProcessMeachne', controller.machineController.get);
+  router.get('/api/getProcessMeachne', controller.machineController.getProcessAndMachine);
+  router.get('/api/getProcessRecord/:id', controller.machineController.getMachineByProcessId);
 
 };
