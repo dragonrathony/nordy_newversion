@@ -74,7 +74,7 @@ const processController = {
     updateStatus(req, res) {
         let id = req.body.raw.id;
         let status = req.body.raw.status === "Deactive" ? '0' : '1';
-        console.log('status', status)
+
         database.query('UPDATE ind_process SET status=? WHERE id=?', [status, id])
             .then(result => {
                 returnResult(res, 'Successfully updated!', 0, result);
