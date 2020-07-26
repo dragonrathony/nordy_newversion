@@ -7,5 +7,6 @@ export default  (app) => {
 
   router.get('/api/getProcessMeachne', controller.machineController.getProcessAndMachine);
   router.get('/api/getProcessRecord/:id', controller.machineController.getMachineByProcessId);
+  router.get('/api/getProcessRecordByid/:id', controller.machineController.getMachineById);
 
 };
