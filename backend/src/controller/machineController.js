@@ -118,21 +118,32 @@ const machineController = {
                 `VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
             opPostValues = [businessUnity, name, machineCode, processId];
 
+        let checkMachineExistQuery = 'SELECT * FROM op_posts WHERE machine_name=? OR machine_code=?',
+            checkMachineValues = [name, machineCode];
 
-        database.query(insertOpPostsQuery, opPostValues)
-            .then((opPost) => {
-                let opPostId = opPost.insertId;
-                let OpPostParamsValues = [opPostId, businessUnity, quality, eficiency, availability,
-                    setupTime, setupTimeUnity, cost, costTimeUnity, setupLoss, setupLossUnity, speed,
-                    speedUnity, speedTimeUnity, minBatch, minBatchUnity, maxBatch, maxBatchUnity, groupSpeed, groupSpeedTimeUnity,
-                    groupSpeedUnity, groupName, onOff, extraFields];
-                database.query(insertOpPostParamsQuery, OpPostParamsValues)
-                    .then(result => {
-                        returnResult(res, 'Added Successfully!', 0, result);
-                    })
-                    .catch(err => returnResult(res, 'Oops, Error in adding machine parameters!', 1, err));
+        database.query(checkMachineExistQuery, checkMachineValues)
+            .then(checkResult => {
+                if (checkResult.length === 0) {
+                    database.query(insertOpPostsQuery, opPostValues)
+                        .then((opPost) => {
+                            let opPostId = opPost.insertId;
+                            let OpPostParamsValues = [opPostId, businessUnity, quality, eficiency, availability,
+                                setupTime, setupTimeUnity, cost, costTimeUnity, setupLoss, setupLossUnity, speed,
+                                speedUnity, speedTimeUnity, minBatch, minBatchUnity, maxBatch, maxBatchUnity, groupSpeed, groupSpeedTimeUnity,
+                                groupSpeedUnity, groupName, onOff, extraFields];
+                            database.query(insertOpPostParamsQuery, OpPostParamsValues)
+                                .then(result => {
+                                    returnResult(res, 'Added Successfully!', 0, result);
+                                })
+                                .catch(err => returnResult(res, 'Oops, Error in adding machine parameters!', 1, err));
+                        })
+                        .catch(err => returnResult(res, 'Oops, Error in adding machine!', 1, err));
+                } else {
+                    returnResult(res, 'Oops, Machine name or code is already exist!', 1, checkResult)
+                }
             })
-            .catch(err => returnResult(res, 'Oops, Error in adding machine!', 1, err));
+            .catch(err => returnResult(res, 'Oops, Error in checking machine!', 1, err));
+
     },
 
 
