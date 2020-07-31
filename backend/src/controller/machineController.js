@@ -59,14 +59,25 @@ const machineController = {
             shiftE = req.body.raw.ShiftE,
             extraFields = JSON.stringify(req.body.raw.EXTRAFIELDS);
 
-        let query = 'update  processrecord SET BusinessUnity=?,Name=?,MachineCode=?,ProcessId=?,Quality=?,Eficiency=?,Availability=?,SetupTime=?,SetupTimeUnity=?,Cost=?,CostTimeUnity=?,SetupLoss=?,SetupLossUnity=?,Speed=?,SpeedUnity=?,SpeedTimeUnity=?,MinBatch=?,MinBatchUnity=?,MaxBatch=?,MaxBatchUnity=?,GroupSpeed=?,GroupSpeedTimeUnity=?,GroupSpeedUnity=?,GroupName=?,OnOff=?,EXTRAFIELDS=?,ShiftA=?,ShiftB=?,ShiftC=?,ShiftD=?,ShiftE=? where id=?';
-        let params = [businessUnity, name, machineCode, processId, quality, eficiency, availability,
-            setupTime, setupTimeUnity, cost, costTimeUnity, setupLoss, setupLossUnity, speed,
-            speedUnity, speedTimeUnity, minBatch, minBatchUnity, MaxBatch, MaxBatchUnity, GroupSpeed, GroupSpeedTimeUnity,
-            groupSpeedUnity, groupName, onOff, extraFields, shiftA, shiftB, shiftC, shiftD, shiftE, oldId]
-        database.query(query, params)
-            .then(result => {
-                returnResult(res, 'Updated Successfully!', 0, result);
+        let updateOpPostsQuery = 'UPDATE op_posts SET bu=?, machine_name=?, machine_code=?, ind_process_id=? WHERE id=?',
+            updateOpPostParamsQuery = `UPDATE op_post_params SET bu=?, quality=?, efficiency=?, availability=?, setup_time=?, ` +
+             `setup_time_unity=?, cost=?, cost_time_unity=?, setup_loss=?, setup_loss_unity=?, speed=?, speed_unity=?, ` +
+             `speed_time_unity=?, min_batch=?, min_batch_unity=?, max_batch=?, max_batch_unity=?, group_speed=?, ` +
+             `group_speed_time_unity=?, group_speed_unity=?, group_name=?, status=?, extra=?, shift_a=?, ` +
+             `shift_b=?, shift_c=?, shift_d=?, shift_e=? WHERE op_post_id=?`,
+            opPostValues = [businessUnity, name, machineCode, processId, oldId],
+            OpPostParamsValues = [businessUnity, quality, eficiency, availability,
+                setupTime, setupTimeUnity, cost, costTimeUnity, setupLoss, setupLossUnity, speed,
+                speedUnity, speedTimeUnity, minBatch, minBatchUnity, maxBatch, maxBatchUnity, groupSpeed, groupSpeedTimeUnity,
+                groupSpeedUnity, groupName, onOff, extraFields, shiftA, shiftB, shiftC, shiftD, shiftE, oldId];
+
+        database.query(updateOpPostsQuery, opPostValues)
+            .then(() => {
+                database.query(updateOpPostParamsQuery, OpPostParamsValues)
+                    .then(result => {
+                        returnResult(res, 'Updated Successfully!', 0, result);
+                    })
+                    .catch(err => returnResult(res, 'Oops, Error in updating machine parameters!', 1, err));
             })
             .catch(err => returnResult(res, 'Oops, Error in updating machine!', 1, err));
     },
