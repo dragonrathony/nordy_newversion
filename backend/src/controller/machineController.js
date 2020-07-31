@@ -61,10 +61,10 @@ const machineController = {
 
         let updateOpPostsQuery = 'UPDATE op_posts SET bu=?, machine_name=?, machine_code=?, ind_process_id=? WHERE id=?',
             updateOpPostParamsQuery = `UPDATE op_post_params SET bu=?, quality=?, efficiency=?, availability=?, setup_time=?, ` +
-             `setup_time_unity=?, cost=?, cost_time_unity=?, setup_loss=?, setup_loss_unity=?, speed=?, speed_unity=?, ` +
-             `speed_time_unity=?, min_batch=?, min_batch_unity=?, max_batch=?, max_batch_unity=?, group_speed=?, ` +
-             `group_speed_time_unity=?, group_speed_unity=?, group_name=?, status=?, extra=?, shift_a=?, ` +
-             `shift_b=?, shift_c=?, shift_d=?, shift_e=? WHERE op_post_id=?`,
+                `setup_time_unity=?, cost=?, cost_time_unity=?, setup_loss=?, setup_loss_unity=?, speed=?, speed_unity=?, ` +
+                `speed_time_unity=?, min_batch=?, min_batch_unity=?, max_batch=?, max_batch_unity=?, group_speed=?, ` +
+                `group_speed_time_unity=?, group_speed_unity=?, group_name=?, status=?, extra=?, shift_a=?, ` +
+                `shift_b=?, shift_c=?, shift_d=?, shift_e=? WHERE op_post_id=?`,
             opPostValues = [businessUnity, name, machineCode, processId, oldId],
             OpPostParamsValues = [businessUnity, quality, eficiency, availability,
                 setupTime, setupTimeUnity, cost, costTimeUnity, setupLoss, setupLossUnity, speed,
@@ -80,6 +80,59 @@ const machineController = {
                     .catch(err => returnResult(res, 'Oops, Error in updating machine parameters!', 1, err));
             })
             .catch(err => returnResult(res, 'Oops, Error in updating machine!', 1, err));
+    },
+
+    createMachine(req, res) {
+        let businessUnity = req.body.raw.BusinessUnity == '' ? 0 : req.body.raw.BusinessUnity,
+            name = req.body.raw.Name,
+            machineCode = req.body.raw.MachineCode,
+            processId = req.body.raw.ProcessId,
+            quality = req.body.raw.Quality == '' ? 0 : req.body.raw.Quality,
+            eficiency = req.body.raw.Eficiency == '' ? 0 : req.body.raw.Eficiency,
+            availability = req.body.raw.Availability == '' ? 0 : req.body.raw.Availability,
+            setupTime = req.body.raw.SetupTime == '' ? 0 : req.body.raw.SetupTime,
+            setupTimeUnity = req.body.raw.SetupTimeUnity,
+            cost = req.body.raw.Cost == '' ? 0 : req.body.raw.Cost,
+            costTimeUnity = req.body.raw.CostTimeUnity,
+            setupLoss = req.body.raw.SetupLoss == '' ? 0 : req.body.raw.SetupLoss,
+            speed = req.body.raw.Speed == '' ? 0 : req.body.raw.Speed,
+            speedUnity = req.body.raw.SpeedUnity,
+            speedTimeUnity = req.body.raw.SpeedTimeUnity,
+            minBatch = req.body.raw.MinBatch == '' ? 0 : req.body.raw.MinBatch,
+            minBatchUnity = req.body.raw.MinBatchUnity,
+            maxBatch = req.body.raw.MaxBatch == '' ? 0 : req.body.raw.MaxBatch,
+            maxBatchUnity = req.body.raw.MaxBatchUnity,
+            groupSpeed = req.body.raw.GroupSpeed == '' ? 0 : req.body.raw.GroupSpeed,
+            groupSpeedTimeUnity = req.body.raw.GroupSpeedTimeUnity,
+            groupSpeedUnity = req.body.raw.GroupSpeedUnity,
+            groupName = req.body.raw.GroupName,
+            setupLossUnity = req.body.raw.SetupLossUnity,
+            onOff = req.body.raw.OnOff,
+            extraFields = JSON.stringify(req.body.raw.EXTRAFIELDS);
+
+        let insertOpPostsQuery = 'INSERT INTO op_posts (bu, machine_name, machine_code, ind_process_id) VALUES (?, ?, ?, ?)',
+            insertOpPostParamsQuery = `INSERT INTO op_post_params (op_post_id, bu, quality, efficiency, availability, setup_time, ` +
+                `setup_time_unity, cost, cost_time_unity, setup_loss, setup_loss_unity, speed, speed_unity, ` +
+                `speed_time_unity, min_batch, min_batch_unity, max_batch, max_batch_unity, group_speed, ` +
+                `group_speed_time_unity, group_speed_unity, group_name, status, extra) ` +
+                `VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+            opPostValues = [businessUnity, name, machineCode, processId];
+
+
+        database.query(insertOpPostsQuery, opPostValues)
+            .then((opPost) => {
+                let opPostId = opPost.insertId;
+                let OpPostParamsValues = [opPostId, businessUnity, quality, eficiency, availability,
+                    setupTime, setupTimeUnity, cost, costTimeUnity, setupLoss, setupLossUnity, speed,
+                    speedUnity, speedTimeUnity, minBatch, minBatchUnity, maxBatch, maxBatchUnity, groupSpeed, groupSpeedTimeUnity,
+                    groupSpeedUnity, groupName, onOff, extraFields];
+                database.query(insertOpPostParamsQuery, OpPostParamsValues)
+                    .then(result => {
+                        returnResult(res, 'Added Successfully!', 0, result);
+                    })
+                    .catch(err => returnResult(res, 'Oops, Error in adding machine parameters!', 1, err));
+            })
+            .catch(err => returnResult(res, 'Oops, Error in adding machine!', 1, err));
     },
 
 
