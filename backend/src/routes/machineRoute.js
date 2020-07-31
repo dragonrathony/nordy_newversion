@@ -10,5 +10,6 @@ export default  (app) => {
   router.get('/api/getProcessRecordByid/:id', controller.machineController.getMachineById);
   router.post('/api/addProcessrecord', controller.machineController.createMachine);
   router.post('/api/updateProcessrecord', controller.machineController.updateMachine);
+  router.post('/api/updateMachineStatus', controller.machineController.updateMachineStatus);
 
 };

@@ -158,6 +158,15 @@ const machineController = {
 
     },
 
+    updateMachineStatus(req, res) {
+        let { id, status } = req.body.raw;
+        let query = 'UPDATE op_post_params SET status=? WHERE op_post_id=?';
+
+        database.query(query, [status, id])
+            .then(result => returnResult(res, 'Machine status updated Successfully!', 0, result))
+            .catch(err => returnResult(res, 'Oops, Error in machine status!', 1, err));
+    }
+
 
 
 };
