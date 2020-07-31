@@ -106,7 +106,7 @@ CREATE TABLE `ind_process` (
   `extra` longtext DEFAULT NULL,
   `bu` int(11) NOT NULL,
   PRIMARY KEY (`id`,`process_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 /*Data for the table `ind_process` */
 
@@ -146,7 +146,7 @@ CREATE TABLE `op_post_params` (
   `extra` longtext DEFAULT NULL,
   `bu` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 /*Data for the table `op_post_params` */
 
@@ -159,10 +159,9 @@ CREATE TABLE `op_posts` (
   `machine_name` varchar(200) NOT NULL,
   `machine_code` varchar(200) NOT NULL,
   `ind_process_id` int(11) NOT NULL,
-  `op_post_param_id` int(11) NOT NULL,
   `bu` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 /*Data for the table `op_posts` */
 
