@@ -71,15 +71,27 @@ const machineController = {
                 speedUnity, speedTimeUnity, minBatch, minBatchUnity, maxBatch, maxBatchUnity, groupSpeed, groupSpeedTimeUnity,
                 groupSpeedUnity, groupName, onOff, extraFields, shiftA, shiftB, shiftC, shiftD, shiftE, oldId];
 
-        database.query(updateOpPostsQuery, opPostValues)
-            .then(() => {
-                database.query(updateOpPostParamsQuery, OpPostParamsValues)
-                    .then(result => {
-                        returnResult(res, 'Updated Successfully!', 0, result);
-                    })
-                    .catch(err => returnResult(res, 'Oops, Error in updating machine parameters!', 1, err));
+        let checkMachineExistQuery = 'SELECT * FROM op_posts WHERE id!=? AND (machine_name=? OR machine_code=?)',
+            checkMachineValues = [oldId, name, machineCode];
+
+        database.query(checkMachineExistQuery, checkMachineValues)
+            .then(checkResult => {
+                if (checkResult.length === 0) {
+                    database.query(updateOpPostsQuery, opPostValues)
+                        .then(() => {
+                            database.query(updateOpPostParamsQuery, OpPostParamsValues)
+                                .then(result => {
+                                    returnResult(res, 'Updated Successfully!', 0, result);
+                                })
+                                .catch(err => returnResult(res, 'Oops, Error in updating machine parameters!', 1, err));
+                        })
+                        .catch(err => returnResult(res, 'Oops, Error in updating machine!', 1, err));
+                } else {
+                    returnResult(res, 'Oops, Machine name or code is already exist!', 1, checkResult)
+                }
             })
-            .catch(err => returnResult(res, 'Oops, Error in updating machine!', 1, err));
+            .catch(err => returnResult(res, 'Oops, Error in checking machine!', 1, err));
+
     },
 
     createMachine(req, res) {
