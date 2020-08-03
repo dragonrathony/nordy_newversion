@@ -33,7 +33,7 @@ const familyController = {
         database.query(checkFamilyNameExistQuery, [familyName])
             .then(result => {
                 if (result.length > 0) {
-                    returnResult(res, 'Family name already exit', 1, result)
+                    returnResult(res, 'Family name already exit', 1, result);
                 } else {
                     //find id of process
                     database.query(getProcessQuery)
@@ -54,14 +54,57 @@ const familyController = {
                                         }
                                     });
                                 });
-                                returnResult(res, 'Added Successfully', 0, result);
+                                returnResult(res, 'Added Successfully', 0, []);
                             }
                         })
                         .catch(err => returnResult(res, 'Oops, error in getting process list!', 1, err));
                 }
             })
             .catch(err => returnResult(res, 'Oops, error in checking family name exist!', 1, err));
+    },
+
+
+    update(req, res) {
+        let familyName = req.body.raw.FamilyName,
+            familyProcess = req.body.raw.familyProcess,
+            oldFamilName = req.body.raw.oldFamilName;
+
+        let checkFamilyNameExistQuery = 'SELECT * FROM family WHERE family_name=?',
+            getProcessQuery = 'SELECT * FROM ind_process',
+            deleteFamilyQuery = 'DELETE FROM family WHERE family_name=?',
+            insertFamilyQuery = 'INSERT INTO family(family_name, process_id, process_order) VALUES(?,?,?)';
+
+        database.query(checkFamilyNameExistQuery, [familyName])
+            .then(result => {
+                if (result.length > 0 && result[0]['family_name'] != oldFamilName) {
+                    returnResult(res, 'Family name already exit', 1, result);
+                } else {
+                    //find id of process
+                    database.query(deleteFamilyQuery, [oldFamilName])
+                        .then(() => {
+                            database.query(getProcessQuery).then(processes => {
+                                processes.forEach(process => {
+                                    //get id of process
+                                    let processOrder = 0;
+                                    familyProcess.forEach(familyProcessElement => {
+                                        if (familyProcessElement == process.process_name) {
+                                            processOrder = familyProcess.indexOf(process.process_name);
+                                            processOrder += 1;
+                                            database.query(insertFamilyQuery, [familyName, process.id, processOrder])
+                                                .then(() => { })
+                                                .catch(err => returnResult(res, 'Oops, error in recording family process!', 1, err));
+                                        }
+                                    });
+                                });
+                                returnResult(res, 'Updated Successfully', 0, []);
+                            });
+                        })
+                        .catch(err => returnResult(res, 'Oops, error in removing family!', 1, err));
+                }
+            })
+            .catch(err => returnResult(res, 'Oops, error in checking family name exist!', 1, err));
     }
+
 
 
 };
