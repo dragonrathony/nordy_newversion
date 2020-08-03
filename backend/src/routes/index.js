@@ -5,6 +5,7 @@ import authRoute from './authRoute';
 import productRoute from './productRoute';
 import processRoute from './processRoute';
 import machineRoute from './machineRoute';
+import familyRoute from './familyRoute';
 
 const route = () => {
     testRoute(app);
@@ -12,6 +13,7 @@ const route = () => {
     productRoute(app);
     processRoute(app);
     machineRoute(app);
+    familyRoute(app);
 
     return app;
 }
