@@ -10,6 +10,18 @@ const familyController = {
     },
 
 
+    getById(req, res) {
+        let id = req.params.id;
+        let query = 'SELECT family.*, ind_process.process_name FROM family LEFT JOIN ind_process ON ind_process.id=family.process_id  WHERE family_name=? ORDER BY process_order ASC';
+        database.query(query, [id]).then(result => {
+            if (result.length)
+                returnResult(res, 'Success', 0, result);
+            else
+                returnResult(res, 'No record found!', 1, []);
+        });
+    },
+
+
     create(req, res) {
         let familyName = req.body.raw.FamilyName;
         let familyProcess = req.body.raw.familyProcess;
