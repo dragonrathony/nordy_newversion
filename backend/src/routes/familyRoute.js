@@ -6,5 +6,6 @@ export default  (app) => {
   app.use('/', router);
 
   router.get('/api/getFamily', controller.familyController.get);
+  router.post('/api/familysave', controller.familyController.create);
 
 };
