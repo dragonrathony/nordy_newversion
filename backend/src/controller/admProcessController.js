@@ -54,6 +54,18 @@ const admProcessController = {
                 }
             })
             .catch(err => returnResult(res, 'Oops, error in checking adm process name exist!', 1, err));
+    },
+
+    async updateStatus(req, res) {
+        let { id, status } = req.body.data,
+            query = 'UPDATE adm_processes SET status=?  WHERE id=?';
+        await database.query(query, [status, id])
+            .then(result => {
+                returnResult(res, 'Status is updated successfully!', 0, result);
+            })
+            .catch(err => {
+                returnResult(res, 'Oops, updating status error!', 1, err);
+            });
     }
 
 

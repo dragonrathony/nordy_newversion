@@ -9,5 +9,6 @@ export default  (app) => {
   router.post('/api/getAdmProcessById', controller.admProcessController.getById);
   router.post('/api/addAdmProcess', controller.admProcessController.create);
   router.post('/api/editAdmProcesses', controller.admProcessController.update);
+  router.post('/api/updateAdmProcessesStatus', controller.admProcessController.updateStatus);
   
 };
