@@ -6,5 +6,6 @@ export default  (app) => {
   app.use('/', router);
 
   router.get('/api/getAdmProcesses', controller.admProcessController.get);
+  router.post('/api/getAdmProcessById', controller.admProcessController.getById);
   
 };

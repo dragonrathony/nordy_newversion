@@ -12,6 +12,13 @@ const admProcessController = {
         }).catch(err => returnResult(res, 'Oops, error in getting adm process!', 1, err));
     },
 
+    async getById(req, res) {
+        let processId = req.body.data.id,
+            query = 'SELECT * FROM adm_processes WHERE id=?';
+        await database.query(query, [processId]).then(result => {
+            returnResult(res, 'Success', 0, result);
+        }).catch(err => returnResult(res, 'Oops, error in getting adm process by id!', 1, err));
+    },
 
 
 };
