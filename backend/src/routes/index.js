@@ -6,6 +6,7 @@ import productRoute from './productRoute';
 import processRoute from './processRoute';
 import machineRoute from './machineRoute';
 import familyRoute from './familyRoute';
+import admProcessRoute from './admProcessRoute';
 
 const route = () => {
     testRoute(app);
@@ -14,6 +15,7 @@ const route = () => {
     processRoute(app);
     machineRoute(app);
     familyRoute(app);
+    admProcessRoute(app);
 
     return app;
 }
