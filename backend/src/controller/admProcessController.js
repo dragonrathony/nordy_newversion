@@ -35,6 +35,27 @@ const admProcessController = {
             .catch(err => returnResult(res, 'Oops, error in recording adm process!', 1, err));
     },
 
+    async update(req, res) {
+        let { processId, processName, processCost } = req.body.data,
+            checkAdmProcessNameExistQuery = 'SELECT * FROM adm_processes WHERE name=?',
+            updateQuery = 'UPDATE adm_processes SET name=?, cost=?  WHERE id=?';
+        await database.query(checkAdmProcessNameExistQuery, [processName])
+            .then(checkResult => {
+                if (checkResult.length > 0 && processName !== checkResult[0]['name']) {
+                    returnResult(res, 'Oops, adm process name is already exist!', 1, checkResult);
+                } else {
+                    database.query(updateQuery, [processName, processCost, processId])
+                        .then(result => {
+                            returnResult(res, 'Updated successfully!', 0, result);
+                        })
+                        .catch(err => {
+                            returnResult(res, 'Oops, error in updating adm process!', 1, err);
+                        });
+                }
+            })
+            .catch(err => returnResult(res, 'Oops, error in checking adm process name exist!', 1, err));
+    }
+
 
 };
 
