@@ -4,6 +4,7 @@ import processController from './processController';
 import machineController from './machineController';
 import familyController from './familyController';
 import admProcessController from './admProcessController';
+import quotationConroller from './quotationController';
 
 export default {
     loginController,
@@ -11,5 +12,6 @@ export default {
     processController,
     machineController,
     familyController,
-    admProcessController
+    admProcessController,
+    quotationConroller
 };

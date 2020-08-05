@@ -7,6 +7,7 @@ import processRoute from './processRoute';
 import machineRoute from './machineRoute';
 import familyRoute from './familyRoute';
 import admProcessRoute from './admProcessRoute';
+import quotationRoute from './quotationRoute';
 
 const route = () => {
     testRoute(app);
@@ -16,6 +17,7 @@ const route = () => {
     machineRoute(app);
     familyRoute(app);
     admProcessRoute(app);
+    quotationRoute(app);
 
     return app;
 }
