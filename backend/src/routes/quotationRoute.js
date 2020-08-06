@@ -5,6 +5,6 @@ const router = Router();
 export default  (app) => {
   app.use('/', router);
 
-  router.get('/api/quotation', controller.quotationConroller.get);
+  router.post('/api/quotation', controller.quotationConroller.quotation);
   
 };
